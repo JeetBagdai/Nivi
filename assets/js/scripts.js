@@ -876,16 +876,16 @@ const chatbot = {
         // Generate controversial stance via Groq
         chatbot.appendMessage('bot', '⏳ Formulating a controversial opinion...');
 
-        const prompt = `You are a devil's advocate for an investing debate.
+        const prompt = `You are a beginner investor having a friendly chat.
 Topic: "${topic}"
 
-Generate a controversial, slightly incorrect, or dangerously half-true opinion about this topic.
-It should sound plausible to a beginner but be fundamentally flawed (e.g. "You should borrow money to invest because leverage maximizes returns" or "Market crashes are time to sell everything").
+Generate a very simple, slightly incorrect opinion about this topic that is easy for a student to correct.
+Avoid complex words. Make the mistake very obvious (e.g. "I should spend all my money today because the future doesn't matter" or "I will keep my money in a box to make it double").
 
-Keep it under 2 sentences. Make it provocative.`;
+Keep it under 2 sentences. Use very easy English.`;
 
         const stance = await chatbot.callGroq([
-            { role: 'system', content: 'You are a stubborn, contrarian debater.' },
+            { role: 'system', content: 'You are a friendly person with a very simple, incorrect financial idea.' },
             { role: 'user', content: prompt }
         ], chatbot.GROQ_API_KEY_CHATBOT);
 
@@ -930,17 +930,18 @@ Keep it under 2 sentences. Make it provocative.`;
 
         // Turn 1: Bot Rebuts
         if (rs.turnCount < 2) {
-            const rebuttalPrompt = `You are debating a student on "${rs.topic}".
+            const rebuttalPrompt = `You are talking to a student about "${rs.topic}".
 Your Position: "${rs.stance}"
 Student's Argument: "${userInput}"
 
-Acknowledge their point but find a flaw, exception, or double down on your wrong stance with a "logical" fallacy. Challenge them to explain further.
-Keep it under 40 words. Be stubborn but educational (don't be mean, just wrong).`;
+Agree with them partially but stick to your simple, wrong idea using very basic words. 
+Don't be stubborn. Be easy to convince. Use simple vocabulary so a school child can understand you.
+Keep it under 30 words.`;
 
             // Run API and Delay in parallel
             const [rebuttal] = await Promise.all([
                 chatbot.callGroq([
-                    { role: 'system', content: 'You are a stubborn debater defending a wrong financial view.' },
+                    { role: 'system', content: 'You are a friendly person with a simple, wrong financial view. Use very easy words.' },
                     { role: 'user', content: rebuttalPrompt }
                 ], chatbot.GROQ_API_KEY_CHATBOT),
                 delayPromise
@@ -972,24 +973,23 @@ Keep it under 40 words. Be stubborn but educational (don't be mean, just wrong).
         chatbot.appendMessage('bot', '🤔 Analyzing your argument...');
         const delayPromise = new Promise(r => setTimeout(r, 3000));
 
-        const evalPrompt = `Evaluate this debate on "${rs.topic}".
-Bot's Wrong Stance: "${rs.stance}"
-Student's Arguments:
+        const evalPrompt = `Judge this debate on "${rs.topic}".
+Bot's Opinion: "${rs.stance}"
+Student's Words:
 ${rs.history.filter(m => m.role === 'user').map(m => `- ${m.content}`).join('\n')}
 
-Did the student successfully identify the flaw and prove the correct principle?
-1. Rate their debating (1-5 stars)
-2. Provide brief feedback (max 40 words) on what they got right or missed.
-3. State the CORRECT principle clearly.
+Did the student explain why I was wrong? 
+Be very kind and generous. Give more stars easily.
+Use very simple words in your feedback.
 
 Format:
-STARS: [number]
-FEEDBACK: [text]
-PRINCIPLE: [text]`;
+STARS: [number 1-5]
+FEEDBACK: [very simple text]
+PRINCIPLE: [very simple summary of the correct rule]`;
 
         const [evaluation] = await Promise.all([
             chatbot.callGroq([
-                { role: 'system', content: 'You are a debate judge. Be fair and constructive.' },
+                { role: 'system', content: 'You are a very kind judge. Use very simple vocabulary and be extra generous.' },
                 { role: 'user', content: evalPrompt }
             ], chatbot.GROQ_API_KEY_CHATBOT),
             delayPromise
