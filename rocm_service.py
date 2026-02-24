@@ -4,6 +4,12 @@ from pydantic import BaseModel
 import torch
 import torch.nn as nn
 import uvicorn
+import os
+import httpx
+from dotenv import load_dotenv
+from typing import List, Dict, Optional
+
+load_dotenv()
 
 app = FastAPI(title="Nivi Behavioral Points (ROCm PyTorch)")
 
@@ -81,6 +87,44 @@ def compute_points(req: BehaviorRequest):
     print(f"Computed Points: {points} (Time: {req.time_spent}s, Score: {req.quiz_score})")
     
     return {"points": points, "device_used": str(device)}
+
+class ChatRequest(BaseModel):
+    messages: List[Dict[str, str]]
+    api_target: Optional[str] = "CHATBOT"
+
+@app.post("/chat")
+async def proxy_chat(req: ChatRequest):
+    if req.api_target == "TOPIC":
+        api_key = os.getenv("GROQ_API_KEY_TOPIC")
+    else:
+        api_key = os.getenv("GROQ_API_KEY_CHATBOT")
+        
+    if not api_key:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=500, detail="Groq API Key not found in .env")
+        
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.post(
+                "https://api.groq.com/openai/v1/chat/completions",
+                headers={
+                    "Authorization": f"Bearer {api_key}",
+                    "Content-Type": "application/json"
+                },
+                json={
+                    "model": "llama-3.1-8b-instant",
+                    "messages": req.messages,
+                    "temperature": 0.9,
+                    "max_tokens": 600
+                },
+                timeout=30.0
+            )
+            response.raise_for_status()
+            return response.json()
+        except Exception as e:
+            from fastapi import HTTPException
+            print(f"Groq API Error: {str(e)}")
+            raise HTTPException(status_code=502, detail="Failed to communicate with Groq API")
 
 if __name__ == "__main__":
     uvicorn.run("rocm_service:app", host="0.0.0.0", port=8000, reload=True)

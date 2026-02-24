@@ -817,30 +817,27 @@ const chatbot = {
     },
 
     // --- GROQ API INTEGRATION ---
-    GROQ_API_KEY_TOPIC: '', // For Comfort Topics
-    GROQ_API_KEY_CHATBOT: '', // For Debate Chatbot
+    GROQ_API_KEY_TOPIC: 'TOPIC', // Signal for Comfort Topics
+    GROQ_API_KEY_CHATBOT: 'CHATBOT', // Signal for Debate Chatbot
 
-    callGroq: async (messages, apiKey) => {
-        const key = apiKey || chatbot.GROQ_API_KEY_CHATBOT; // Default to Chatbot key if not provided, or pass explicit
+    callGroq: async (messages, apiTarget) => {
+        const target = apiTarget || chatbot.GROQ_API_KEY_CHATBOT;
         try {
-            const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+            const response = await fetch('http://localhost:8000/chat', {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${key}`,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    model: 'llama-3.1-8b-instant',
                     messages: messages,
-                    temperature: 0.9,
-                    max_tokens: 600
+                    api_target: target
                 })
             });
-            if (!response.ok) throw new Error(`Groq API error: ${response.status}`);
+            if (!response.ok) throw new Error(`Backend proxy error: ${response.status}`);
             const data = await response.json();
             return data.choices[0].message.content;
         } catch (err) {
-            console.error('Groq API call failed:', err);
+            console.error('Local API proxy call failed:', err);
             return null;
         }
     },

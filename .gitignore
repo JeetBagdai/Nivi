@@ -1,0 +1,12 @@
+# Environments
+.env
+
+# Python caches
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Virtual Environments
+venv/
+env/
+.env_local
