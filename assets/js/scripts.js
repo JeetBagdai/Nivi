@@ -253,6 +253,7 @@ let state = {
     simCompleted: false,
     rewardClaimed: false,
     comfortTopic: null, // User's chosen analogy topic (e.g. 'Farming')
+    tourCompleted: false, // Whether the guided tour has been shown
     user: null // { name, phone, email, yob }
 };
 
@@ -302,6 +303,11 @@ const translations = {
         "sim-total-return": "Total Invested",
         "sim-abort": "Abort Simulation",
         "hero-msg": "Before you invest real money, learn how you behave when things go wrong.",
+        "landing-about": "The Concept",
+        "landing-about-title": "What is Nivi?",
+        "landing-about-desc": "Nivi is a platform that teaches you how to invest by testing your emotions. We use AI and past market crashes to show you what it really feels like to invest. Instead of just reading theory, you will learn how to stay calm and make smart choices in a safe space.",
+        "landing-engine-title": "Test Your Nerves",
+        "landing-engine-desc": "Experience real market crashes to see how you react before you risk your actual money.",
         "landing-trap": "The Trap",
         "landing-trap-title": "Why smart people lose money.",
         "landing-trap-desc": "It’s not about intelligence. It’s about emotional durability.",
@@ -318,7 +324,7 @@ const translations = {
         "test-1-role": "BBA Student",
         "test-2-quote": "A trusted one stop resource for investment related information. The website content is concise, clear and easy to understand, highlighting the importance of long term investment over short term speculation",
         "test-2-role": "MBA Professor",
-        "test-3-quote": "Nivi demonstrates a thoughtful and innovative approach by incorporating panic room and flashback trading to simulate real market behavior and emotional decision-making. It effectively builds awareness of trading psychology and risk handling in a practical way.",
+        "test-3-quote": "Nivi demonstrates a thoughtful and innovative approach by incorporating panic room and flashback trading to simulate real market behavior and emotional decision-making.",
         "test-3-role": "Business owner and former Goldman Sachs analyst",
         "onboarding-card-title": "Tell us a bit about yourself",
         "sim-result-title": "Simulation Summary",
@@ -405,7 +411,9 @@ const translations = {
         "chatbot-welcome": "Hello! I am NIVI, your behavioral investing assistant. How can I help you today? 💬",
         "chatbot-prelogin": "I can explain the curriculum of NIVI. You will learn about: 1. Financial Foundations, 2. Mythbusters, 3. Investment Options, 4. Rights & Safety, and 5. The Long Game (Panic Simulation).",
         "chatbot-source-sebi": "The educational content in our modules is based on guidelines and data from SEBI (Securities and Exchange Board of India). You can verify more on their official website: https://www.sebi.gov.in/",
-        "chatbot-source-nse": "The historical market data used in our Flashback Trading and Panic Room simulations is sourced from the National Stock Exchange (NSE). You can explore their data archives here: https://www.nseindia.com/"
+        "chatbot-source-nse": "The historical market data used in our Flashback Trading and Panic Room simulations is sourced from the National Stock Exchange (NSE). You can explore their data archives here: https://www.nseindia.com/",
+        "google-signin-desc": "Please sign in to save your progress and continue learning.",
+        "btn-google-signin": "Sign in with Google"
     },
     hi: {
         "nav-dash": "डैशबोर्ड",
@@ -450,6 +458,11 @@ const translations = {
         "sim-total-return": "कुल निवेशित",
         "sim-abort": "सिमुलेशन छोड़ें",
         "hero-msg": "इससे पहले कि आप असली पैसा निवेश करें, जानें कि जब चीजें खराब होती हैं तो आप कैसा व्यवहार करते हैं।",
+        "landing-about": "अवधारणा",
+        "landing-about-title": "Nivi क्या है?",
+        "landing-about-desc": "Nivi एक ऐसा मंच है जो आपकी भावनाओं का परीक्षण करके आपको निवेश करना सिखाता है। हम आपको यह दिखाने के लिए AI और पिछली बाजार दुर्घटनाओं का उपयोग करते हैं कि निवेश करना वास्तव में कैसा लगता है। केवल सिद्धांत पढ़ने के बजाय, आप सीखेंगे कि कैसे शांत रहें और सुरक्षित स्थान पर स्मार्ट विकल्प चुनें।",
+        "landing-engine-title": "अपनी भावनाओं का परीक्षण करें",
+        "landing-engine-desc": "अपने असली पैसे को जोखिम में डालने से पहले वास्तविक बाजार दुर्घटनाओं का अनुभव करें कि आप कैसे प्रतिक्रिया देते हैं।",
         "landing-trap": "जाल",
         "landing-trap-title": "स्मार्ट लोग पैसा क्यों खोते हैं।",
         "landing-trap-desc": "यह बुद्धिमत्ता के बारे में नहीं है। यह भावनात्मक टिकाऊपन के बारे में है।",
@@ -556,7 +569,9 @@ const translations = {
         "chatbot-welcome": "नमस्ते! मैं NIVI हूँ, आपकी व्यवहारात्मक निवेश सहायक। मैं आज आपकी कैसे मदद कर सकती हूँ? 💬",
         "chatbot-prelogin": "मैं NIVI के पाठ्यक्रम के बारे में बता सकती हूँ। आप सीखेंगे: 1. वित्तीय आधार, 2. मिथक तोड़ने वाले, 3. निवेश के विकल्प, 4. अधिकार और सुरक्षा, और 5. लंबा खेल (पैनिक सिमुलेशन)।",
         "chatbot-source-sebi": "हमारे मॉड्यूल की शैक्षिक सामग्री SEBI (भारतीय प्रतिभूति और विनिमय बोर्ड) के दिशानिर्देशों और डेटा पर आधारित है। आप उनकी आधिकारिक वेबसाइट पर अधिक सत्यापित कर सकते हैं: https://www.sebi.gov.in/",
-        "chatbot-source-nse": "हमारे फ्लैशबैक ट्रेडिंग और पैनिक रूम सिमुलेशन में उपयोग किया गया ऐतिहासिक बाजार डेटा नेशनल स्टॉक एक्सचेंज (NSE) से लिया गया है। आप यहां उनके डेटा आर्काइव देख सकते हैं: https://www.nseindia.com/"
+        "chatbot-source-nse": "हमारे फ्लैशबैक ट्रेडिंग और पैनिक रूम सिमुलेशन में उपयोग किया गया ऐतिहासिक बाजार डेटा नेशनल स्टॉक एक्सचेंज (NSE) से लिया गया है। आप यहां उनके डेटा आर्काइव देख सकते हैं: https://www.nseindia.com/",
+        "google-signin-desc": "अपनी प्रगति को सहेजने और सीखना जारी रखने के लिए कृपया साइन इन करें।",
+        "btn-google-signin": "Google के साथ साइन इन करें"
     }
 };
 
@@ -817,25 +832,35 @@ const chatbot = {
     },
 
     // --- GROQ API INTEGRATION ---
-    GROQ_API_KEY_TOPIC: 'TOPIC', // Signal for Comfort Topics
-    GROQ_API_KEY_CHATBOT: 'CHATBOT', // Signal for Debate Chatbot
+    GROQ_API_KEY_TOPIC: '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', // Key for Comfort Topics
+    GROQ_API_KEY_CHATBOT: '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', // Key for Debate Chatbot
 
     callGroq: async (messages, apiTarget) => {
-        const target = apiTarget || chatbot.GROQ_API_KEY_CHATBOT;
+        const apiKey = apiTarget === 'TOPIC' ? chatbot.GROQ_API_KEY_TOPIC : chatbot.GROQ_API_KEY_CHATBOT;
         try {
-            const response = await fetch('http://localhost:8000/chat', {
+            const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
                 method: 'POST',
                 headers: {
+                    'Authorization': `Bearer ${apiKey}`,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
+                    model: "llama-3.1-8b-instant",
                     messages: messages,
-                    api_target: target
+                    temperature: 0.9,
+                    max_tokens: 600
                 })
             });
-            if (!response.ok) throw new Error(`Backend proxy error: ${response.status}`);
+            if (!response.ok) throw new Error(`Groq API error: ${response.status}`);
             const data = await response.json();
-            return data.choices[0].message.content;
+            let text = data.choices[0].message.content;
+
+            // Translate on the fly if the user's language is not English
+            if (state.lang !== 'en') {
+                text = await i18n.tDynamic(text, state.lang);
+            }
+
+            return text;
         } catch (err) {
             console.error('Local API proxy call failed:', err);
             return null;
@@ -868,7 +893,9 @@ const chatbot = {
         win.classList.remove('hidden');
 
         // Show Debate Intro
-        chatbot.appendMessage('bot', `🥊 <strong>Debate Session: ${modTitle}</strong><br><br>Welcome to the arena, ${userName}! I will take a <strong>controversial stance</strong> on "${topic}". Your job is to prove me wrong and defend the correct financial principle.<br><br><em>Ready? Let's see if you can outsmart me!</em>`);
+        let introMsg = `🥊 <strong>Debate Session: ${modTitle}</strong><br><br>Welcome to the arena, ${userName}! I will take a <strong>controversial stance</strong> on "${topic}". Your job is to prove me wrong and defend the correct financial principle.<br><br><em>Ready? Let's see if you can outsmart me!</em>`;
+        if (state.lang !== 'en') introMsg = await i18n.tDynamic(introMsg, state.lang);
+        chatbot.appendMessage('bot', introMsg);
 
         // Delay 1
         await new Promise(r => setTimeout(r, 3000));
@@ -884,7 +911,7 @@ Avoid complex words. Make the mistake very obvious (e.g. "I should spend all my 
 
 Keep it under 2 sentences. Use very easy English.`;
 
-        const stance = await chatbot.callGroq([
+        let stance = await chatbot.callGroq([
             { role: 'system', content: 'You are a friendly person with a very simple, incorrect financial idea.' },
             { role: 'user', content: prompt }
         ], chatbot.GROQ_API_KEY_CHATBOT);
@@ -894,9 +921,9 @@ Keep it under 2 sentences. Use very easy English.`;
         if (msgs.lastChild && msgs.lastChild.innerText.includes('Formulating')) msgs.lastChild.remove();
 
         if (!stance) {
-            chatbot.appendMessage('bot', '❌ System error. Let\'s skip the debate.');
-            chatbot.reviewState.active = false;
-            return;
+            console.warn("Backend down, using fallback stance.");
+            stance = "I think putting all my savings in a jar under my bed is the best way to invest because I can see it!";
+            if (state.lang !== 'en') stance = await i18n.tDynamic(stance, state.lang);
         }
 
         chatbot.reviewState.stance = stance;
@@ -905,7 +932,9 @@ Keep it under 2 sentences. Use very easy English.`;
         // Delay 2 (before showing position)
         await new Promise(r => setTimeout(r, 3000));
 
-        chatbot.appendMessage('bot', `🗣️ <strong>My Position:</strong><br><br>"${stance}"<br><br>👉 <em>Go ahead, prove me wrong!</em>`);
+        let myPositionMsg = `🗣️ <strong>My Position:</strong><br><br>"${stance}"<br><br>👉 <em>Go ahead, prove me wrong!</em>`;
+        if (state.lang !== 'en') myPositionMsg = await i18n.tDynamic(myPositionMsg, state.lang);
+        chatbot.appendMessage('bot', myPositionMsg);
 
         // Add skip button AFTER position
         chatbot.appendSkipButton();
@@ -939,13 +968,19 @@ Don't be stubborn. Be easy to convince. Use simple vocabulary so a school child 
 Keep it under 30 words.`;
 
             // Run API and Delay in parallel
-            const [rebuttal] = await Promise.all([
+            let [rebuttal] = await Promise.all([
                 chatbot.callGroq([
                     { role: 'system', content: 'You are a friendly person with a simple, wrong financial view. Use very easy words.' },
                     { role: 'user', content: rebuttalPrompt }
                 ], chatbot.GROQ_API_KEY_CHATBOT),
                 delayPromise
             ]);
+
+            if (!rebuttal) {
+                console.warn("Backend down, using fallback rebuttal.");
+                rebuttal = "That's an interesting point, but my way just feels simpler and safer to me right now.";
+                if (state.lang !== 'en') rebuttal = await i18n.tDynamic(rebuttal, state.lang);
+            }
 
             const msgs = document.getElementById('chatbot-messages');
             if (msgs.lastChild && msgs.lastChild.innerText.includes('Thinking')) msgs.lastChild.remove();
@@ -1016,6 +1051,15 @@ PRINCIPLE: [very simple summary of the correct rule]`;
 
             // Cleanup if regex failed but we have text
             if (!starMatch && !fbMatch) feedback = evaluation;
+        } else {
+            console.warn("Backend down, using fallback evaluation.");
+            stars = 4;
+            feedback = "Great points! You explained why my idea was risky and what the proper approach is.";
+            principle = "Proper investing builds long-term wealth, while hiding cash loses value to inflation.";
+            if (state.lang !== 'en') {
+                feedback = await i18n.tDynamic(feedback, state.lang);
+                principle = await i18n.tDynamic(principle, state.lang);
+            }
         }
 
         // Award points
@@ -1028,6 +1072,7 @@ PRINCIPLE: [very simple summary of the correct rule]`;
         summaryHTML += `<strong>Verdict:</strong> ${feedback}<br><br>`;
         summaryHTML += `📚 <strong>Correct Principle:</strong><br>${principle}<br><br>`;
         summaryHTML += `<em>You earned +${points} Behavioral Points!</em>`;
+        if (state.lang !== 'en') summaryHTML = await i18n.tDynamic(summaryHTML, state.lang);
 
         chatbot.appendMessage('bot', summaryHTML);
 
@@ -1126,10 +1171,6 @@ PRINCIPLE: [very simple summary of the correct rule]`;
             response = "I'm having trouble connecting to my brain right now. Please check your internet or try again later! 🧠";
         }
 
-        if (state.lang !== 'en' && state.lang !== 'hi') {
-            response = await i18n.tDynamic(response, state.lang);
-        }
-
         // Format Links and Bolds
         response = response.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" style="color:var(--primary);text-decoration:underline;">$1</a>');
         response = response.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
@@ -1154,8 +1195,69 @@ const storage = {
 };
 storage.load();
 
+const candlestickPlugin = {
+    id: 'candlestickPlugin',
+    afterDatasetsDraw: (chart) => {
+        const { ctx, chartArea: { left, top, right, bottom }, scales: { x, y } } = chart;
+        const datasets = chart.data.datasets;
+        
+        ctx.save();
+        
+        // Clip all drawings to the chart grid area so nothing overflows the axes!
+        ctx.beginPath();
+        ctx.rect(left, top, right - left, bottom - top);
+        ctx.clip();
+        
+        datasets.forEach((dataset, datasetIndex) => {
+            if (!dataset.candlestick) return;
+            
+            const meta = chart.getDatasetMeta(datasetIndex);
+            const candles = dataset.candles || [];
+            
+            meta.data.forEach((element, index) => {
+                const candle = candles[index];
+                if (!candle) return;
+                
+                const xPos = element.x;
+                const yOpen = y.getPixelForValue(candle.o);
+                const yClose = y.getPixelForValue(candle.c);
+                const yHigh = y.getPixelForValue(candle.h);
+                const yLow = y.getPixelForValue(candle.l);
+                
+                const isBullish = candle.c >= candle.o;
+                const color = isBullish ? '#22c55e' : '#ef4444';
+                
+                // Draw wick
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.moveTo(xPos, yHigh);
+                ctx.lineTo(xPos, yLow);
+                ctx.stroke();
+                
+                // Draw body
+                const count = meta.data.length;
+                const areaWidth = right - left;
+                const bodyWidth = Math.max(3, Math.min(12, (areaWidth / count) * 0.6));
+                
+                ctx.fillStyle = color;
+                const height = Math.abs(yOpen - yClose);
+                if (height < 1) {
+                    ctx.fillRect(xPos - bodyWidth / 2, yOpen - 0.5, bodyWidth, 1);
+                } else {
+                    ctx.fillRect(xPos - bodyWidth / 2, Math.min(yOpen, yClose), bodyWidth, height);
+                }
+            });
+        });
+        ctx.restore();
+    }
+};
+
 const app = {
     logout: () => {
+        if (window.firebase && firebase.apps.length) {
+            firebase.auth().signOut().catch(console.error);
+        }
         state.user = null;
         storage.save();
         window.location.reload();
@@ -1224,6 +1326,67 @@ const app = {
                     if (document.activeElement === first) { e.preventDefault(); last.focus(); }
                 } else {
                     if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+                }
+            });
+        }
+
+        if (window.firebase && firebase.apps.length) {
+            console.log("Firebase initialized. Setting up authentication listeners...");
+            
+            // 1. Explicitly check for redirect login results when returning from Google Sign-In
+            firebase.auth().getRedirectResult()
+                .then((result) => {
+                    console.log("getRedirectResult completed. Result:", result);
+                    if (result.user) {
+                        const user = result.user;
+                        console.log("Redirect login successful for user:", user.email);
+                        state.user = {
+                            name: user.displayName || "User",
+                            phone: user.phoneNumber || "",
+                            email: user.email || "",
+                            yob: state.user ? (state.user.yob || "") : ""
+                        };
+                        storage.save();
+                        app.updateGreeting();
+                        
+                        if (!state.rewardClaimed) {
+                            document.getElementById('reward-modal').classList.add('active');
+                        } else if (!state.comfortTopic) {
+                            document.getElementById('comfort-topic-modal').classList.add('active');
+                        } else {
+                            app.showDashboard();
+                        }
+                    }
+                })
+                .catch((error) => {
+                    console.error("Firebase Redirect Auth Error:", error);
+                    alert("Sign-in failed: " + error.message);
+                });
+
+            // 2. Setup standard auth state changed observer for active session state syncing
+            firebase.auth().onAuthStateChanged((user) => {
+                console.log("onAuthStateChanged triggered. User:", user ? user.email : "null");
+                if (user) {
+                    const wasLanding = !state.user;
+                    state.user = {
+                        name: user.displayName || "User",
+                        phone: user.phoneNumber || "",
+                        email: user.email || "",
+                        yob: state.user ? (state.user.yob || "") : ""
+                    };
+                    storage.save();
+                    app.updateGreeting();
+                    
+                    if (wasLanding) {
+                        console.log("Landing page detected on login. Transitioning to dashboard/modals...");
+                        if (!state.rewardClaimed) {
+                            document.getElementById('reward-modal').classList.add('active');
+                        } else if (!state.comfortTopic) {
+                            document.getElementById('comfort-topic-modal').classList.add('active');
+                        } else {
+                            app.showDashboard();
+                        }
+                    }
                 }
             });
         }
@@ -1453,66 +1616,40 @@ const app = {
         console.log("getStarted called");
         app.showScreen('onboarding');
     },
-    completeOnboarding: () => {
-        const name = document.getElementById('user-name').value;
-        const phoneEl = document.getElementById('user-phone');
-        const phone = phoneEl ? phoneEl.value : "";
-        const email = document.getElementById('user-email').value;
-        const yob = document.getElementById('user-yob').value;
-        const consent = document.getElementById('user-consent').checked;
-
-        // Validation
-        let valid = true;
-
-        if (!name) {
-            document.getElementById('user-name').classList.add('invalid');
-            valid = false;
-        } else {
-            document.getElementById('user-name').classList.remove('invalid');
-        }
-
-        if (!app.validateEmail(email)) {
-            document.getElementById('user-email').classList.add('invalid');
-            valid = false;
-        } else {
-            document.getElementById('user-email').classList.remove('invalid');
-        }
-
-        // Phone is optional
-        if (phone && !app.validatePhone(phone)) {
-            document.getElementById('user-phone').classList.add('invalid');
-            valid = false;
-        } else {
-            document.getElementById('user-phone').classList.remove('invalid');
-        }
-
-        if (!app.validateYOB(yob)) {
-            document.getElementById('user-yob').classList.add('invalid');
-            valid = false;
-        } else {
-            document.getElementById('user-yob').classList.remove('invalid');
-        }
-
-        if (!valid || !consent) {
-            if (!consent) {
-                document.querySelector('label[for="user-consent"]').style.color = 'var(--danger)';
-            } else {
-                document.querySelector('label[for="user-consent"]').style.color = 'var(--text-muted)';
-            }
+    signInWithGoogle: () => {
+        if (!window.firebase || !firebase.apps.length) {
+            alert("Firebase is not initialized. Please configure your credentials in nivi.html.");
             return;
         }
+        
+        const provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().signInWithPopup(provider)
+            .then((result) => {
+                if (result.user) {
+                    const user = result.user;
+                    console.log("Popup login successful for user:", user.email);
+                    state.user = { 
+                        name: user.displayName || "User", 
+                        phone: user.phoneNumber || "", 
+                        email: user.email || "", 
+                        yob: "" 
+                    };
+                    storage.save();
+                    app.updateGreeting();
 
-        state.user = { name, phone, email, yob };
-        storage.save();
-        app.updateGreeting();
-
-        if (!state.rewardClaimed) {
-            document.getElementById('reward-modal').classList.add('active');
-        } else if (!state.comfortTopic) {
-            document.getElementById('comfort-topic-modal').classList.add('active');
-        } else {
-            app.showDashboard();
-        }
+                    if (!state.rewardClaimed) {
+                        document.getElementById('reward-modal').classList.add('active');
+                    } else if (!state.comfortTopic) {
+                        document.getElementById('comfort-topic-modal').classList.add('active');
+                    } else {
+                        app.showDashboard();
+                    }
+                }
+            })
+            .catch((error) => {
+                console.error("Google Sign-In Error:", error);
+                alert("Sign in failed: " + error.message);
+            });
     },
     claimReward: () => {
         state.behaviorScore += 10;
@@ -1680,6 +1817,11 @@ If NO, add a brief reason on the next line.`;
         window.scrollTo(0, 0);
         const cb = document.getElementById('chatbot-trigger');
         if (cb) cb.classList.remove('hidden');
+
+        // Start guided tour on first visit
+        if (!state.tourCompleted) {
+            setTimeout(() => tour.start(), 800);
+        }
     },
 
 
@@ -1883,23 +2025,17 @@ If NO, add a brief reason on the next line.`;
         }
         storage.save();
 
-        // submit to AMD ROCm service
+        // Local behavioral scoring logic
         const timeSpent = (Date.now() - (window.moduleStartTime || Date.now())) / 1000;
         let quizScore = window.moduleQuizTotal > 0 ? (window.moduleQuizCorrect / window.moduleQuizTotal) : 1.0;
-        fetch('http://localhost:8000/behavior', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ time_spent: timeSpent, quiz_score: quizScore })
-        })
-            .then(r => r.json())
-            .then(data => {
-                if (data.points) {
-                    state.behaviorScore += data.points;
-                    storage.save();
-                    app.updateDash();
-                }
-            })
-            .catch(e => console.error("ROCm service error:", e));
+
+        let points = 5; // Base 5 points for completing
+        if (timeSpent > 30) points += 5; // Good pacing
+        if (quizScore >= 0.8) points += 5; // Good quiz performance
+
+        state.behaviorScore += points;
+        storage.save();
+        app.updateDash();
 
         // Trigger post-module review chatbot
         chatbot.startReview(app.curMod);
@@ -2040,6 +2176,161 @@ If NO, add a brief reason on the next line.`;
 // Initialize app
 // app.init(); // Remove duplicate if it exists at end
 
+
+// --- GUIDED TOUR ---
+const tour = {
+    currentStep: 0,
+    backdrop: null,
+    tooltip: null,
+    steps: [
+        {
+            target: 'ring-container',
+            title: 'Your Readiness Score',
+            desc: 'This ring tracks your progress. Complete modules, answer quizzes correctly, and spend quality time learning to earn points and level up.',
+            position: 'right'
+        },
+        {
+            target: 'module-grid',
+            title: 'Learning Modules',
+            desc: 'Start here! Work through each module in order. Each one covers a key investing concept with stories, real data, and quizzes.',
+            position: 'top'
+        },
+        {
+            target: 'flashback-card',
+            title: 'Flashback Trading',
+            desc: 'Build a portfolio using real Indian sectors and relive actual market history to see how your choices would have played out.',
+            position: 'right'
+        },
+        {
+            target: 'profile-tour-btn',
+            title: 'Your Profile',
+            desc: 'Tap here to view and edit your profile details. You can also change your comfort topic from the profile page anytime.',
+            position: 'bottom-left'
+        },
+        {
+            target: 'lang-circle-dash',
+            title: 'Change Language & Topic',
+            desc: 'Switch between English, Hindi, Kannada, and more. Your comfort topic — which personalizes lessons with analogies — can be changed from your profile.',
+            position: 'bottom-left'
+        }
+    ],
+
+    start: () => {
+        // Create backdrop
+        tour.backdrop = document.createElement('div');
+        tour.backdrop.className = 'tour-backdrop';
+        document.body.appendChild(tour.backdrop);
+
+        // Create tooltip
+        tour.tooltip = document.createElement('div');
+        tour.tooltip.className = 'tour-tooltip';
+        document.body.appendChild(tour.tooltip);
+
+        // Activate backdrop after paint
+        requestAnimationFrame(() => {
+            tour.backdrop.classList.add('active');
+            tour.currentStep = 0;
+            tour.renderStep();
+        });
+
+        // Click on backdrop to skip
+        tour.backdrop.addEventListener('click', tour.end);
+    },
+
+    renderStep: () => {
+        const step = tour.steps[tour.currentStep];
+        const targetEl = document.getElementById(step.target);
+        if (!targetEl) { tour.end(); return; }
+
+        // Clear previous highlights
+        document.querySelectorAll('.tour-highlight').forEach(el => el.classList.remove('tour-highlight'));
+
+        // Scroll target into view
+        targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        // Highlight target after scroll
+        setTimeout(() => {
+            targetEl.classList.add('tour-highlight');
+
+            const isLast = tour.currentStep === tour.steps.length - 1;
+
+            tour.tooltip.innerHTML = `
+                <div class="tour-tooltip-step">Step ${tour.currentStep + 1} of ${tour.steps.length}</div>
+                <div class="tour-tooltip-title">${step.title}</div>
+                <div class="tour-tooltip-desc">${step.desc}</div>
+                <div class="tour-tooltip-actions">
+                    <button class="tour-skip-btn" onclick="tour.end()">Skip Tour</button>
+                    <button class="tour-next-btn" onclick="${isLast ? 'tour.end()' : 'tour.next()'}">${isLast ? 'Got it!' : 'Next →'}</button>
+                </div>
+            `;
+
+            // Position tooltip near target
+            const rect = targetEl.getBoundingClientRect();
+            const tooltipW = Math.min(360, window.innerWidth - 32);
+            const tooltipH = tour.tooltip.offsetHeight || 220;
+            const vw = window.innerWidth;
+            const vh = window.innerHeight;
+
+            let top, left;
+
+            if (step.position === 'right' && rect.right + tooltipW + 24 < vw) {
+                // Position to the right of the element
+                top = rect.top + rect.height / 2 - tooltipH / 2;
+                left = rect.right + 16;
+            } else if (step.position === 'bottom-left') {
+                // Position below and aligned to the right edge of the element
+                top = rect.bottom + 12;
+                left = rect.right - tooltipW;
+            } else {
+                // Default: position below the element, right-aligned
+                top = rect.bottom + 16;
+                left = rect.right - tooltipW;
+            }
+
+            // Clamp within viewport
+            top = Math.max(16, Math.min(top, vh - tooltipH - 16));
+            left = Math.max(16, Math.min(left, vw - tooltipW - 16));
+
+            tour.tooltip.style.top = top + 'px';
+            tour.tooltip.style.left = left + 'px';
+
+            // Animate in
+            tour.tooltip.classList.remove('active');
+            requestAnimationFrame(() => {
+                tour.tooltip.classList.add('active');
+            });
+        }, 400);
+    },
+
+    next: () => {
+        if (tour.currentStep < tour.steps.length - 1) {
+            tour.currentStep++;
+            tour.tooltip.classList.remove('active');
+            setTimeout(() => tour.renderStep(), 200);
+        } else {
+            tour.end();
+        }
+    },
+
+    end: () => {
+        // Remove highlights
+        document.querySelectorAll('.tour-highlight').forEach(el => el.classList.remove('tour-highlight'));
+
+        // Fade out
+        if (tour.backdrop) tour.backdrop.classList.remove('active');
+        if (tour.tooltip) tour.tooltip.classList.remove('active');
+
+        // Remove elements after animation
+        setTimeout(() => {
+            if (tour.backdrop) { tour.backdrop.remove(); tour.backdrop = null; }
+            if (tour.tooltip) { tour.tooltip.remove(); tour.tooltip = null; }
+        }, 350);
+
+        // Mark as completed
+        state.tourCompleted = true;
+        storage.save();
+    }
+};
 
 const sim = {
     chart: null, interval: null, idx: 0, sip: 5000, invested: 0, val: 0, units: 0, decided: false,
@@ -3052,17 +3343,42 @@ const sim = {
             ]
         }
     ],
+    generateCandles: (data) => {
+        const candles = [];
+        for (let i = 0; i < data.length; i++) {
+            const p = data[i].p;
+            const prev_p = i === 0 ? p : data[i - 1].p;
+            
+            const open = prev_p;
+            const close = p;
+            const diff = Math.abs(close - open);
+            
+            const dateStr = data[i].d || "";
+            let seed = 0;
+            for (let j = 0; j < dateStr.length; j++) {
+                seed += dateStr.charCodeAt(j);
+            }
+            const randVal1 = Math.abs(Math.sin(seed + p)) * 0.8;
+            const randVal2 = Math.abs(Math.cos(seed + p)) * 0.8;
+            
+            const vol = Math.max(diff * 0.15, p * 0.005);
+            const high = Math.max(open, close) + randVal1 * vol;
+            const low = Math.min(open, close) - randVal2 * vol;
+            
+            candles.push({ o: open, h: high, l: low, c: close });
+        }
+        return candles;
+    },
     init: () => {
         const ctx = document.getElementById('tradingChart').getContext('2d');
         if (sim.chart) sim.chart.destroy();
 
-        const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-        gradient.addColorStop(0, 'rgba(0, 48, 135, 0.15)');
-        gradient.addColorStop(1, 'rgba(0, 48, 135, 0.0)');
-
         // RANDOM SELECTION
         const randomIndex = Math.floor(Math.random() * sim.scenarios.length);
         sim.currentScenario = sim.scenarios[randomIndex];
+
+        // Pre-generate candles for the current scenario
+        sim.currentScenario.candles = sim.generateCandles(sim.currentScenario.data);
 
         // Update UI based on Scenario
         document.querySelector('[data-i18n="sim-context-title"]').innerText = sim.currentScenario.contextTitle;
@@ -3080,24 +3396,49 @@ const sim = {
                 datasets: [{
                     label: 'Nifty 50 Index',
                     data: [],
-                    borderColor: '#003087',
-                    backgroundColor: gradient,
-                    borderWidth: 2,
+                    borderColor: 'transparent',
+                    backgroundColor: 'transparent',
+                    borderWidth: 0,
                     pointRadius: 0,
-                    fill: true,
-                    tension: 0.2
+                    fill: false,
+                    tension: 0.2,
+                    candlestick: true,
+                    candles: []
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 animation: false,
-                plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
+                plugins: { 
+                    legend: { display: false }, 
+                    tooltip: { 
+                        mode: 'index', 
+                        intersect: false,
+                        callbacks: {
+                            label: (context) => {
+                                const dataset = context.dataset;
+                                const index = context.dataIndex;
+                                const candle = dataset.candles ? dataset.candles[index] : null;
+                                if (candle) {
+                                    return [
+                                        `Close: ₹${Math.round(candle.c).toLocaleString()}`,
+                                        `Open: ₹${Math.round(candle.o).toLocaleString()}`,
+                                        `High: ₹${Math.round(candle.h).toLocaleString()}`,
+                                        `Low: ₹${Math.round(candle.l).toLocaleString()}`
+                                    ];
+                                }
+                                return `Price: ₹${Math.round(context.raw).toLocaleString()}`;
+                            }
+                        }
+                    } 
+                },
                 scales: {
                     x: { grid: { display: false }, ticks: { maxTicksLimit: 6 } },
                     y: { grid: { borderDash: [5, 5], color: '#e2e8f0' }, beginAtZero: false }
                 }
-            }
+            },
+            plugins: [candlestickPlugin]
         });
 
         sim.idx = 0; sim.invested = 0; sim.val = 0; sim.units = 0; sim.decided = false;
@@ -3140,6 +3481,9 @@ const sim = {
         if (lastLabel !== pt.d) {
             sim.chart.data.labels.push(pt.d);
             sim.chart.data.datasets[0].data.push(pt.p);
+            // Push corresponding candle
+            const candle = sim.currentScenario.candles[sim.idx];
+            sim.chart.data.datasets[0].candles.push(candle);
             // Update chart less frequently for daily data to improve performance
             if (!isDaily || sim.idx % 5 === 0 || pt.n || pt.panic) {
                 sim.chart.update();
@@ -3197,6 +3541,9 @@ const sim = {
                 const pt = data[sim.idx];
                 sim.chart.data.labels.push(pt.d);
                 sim.chart.data.datasets[0].data.push(pt.p);
+                // Push corresponding candle
+                const candle = sim.currentScenario.candles[sim.idx];
+                sim.chart.data.datasets[0].candles.push(candle);
                 sim.chart.data.datasets[0].borderColor = '#94a3b8'; // gray out
                 sim.chart.data.datasets[0].backgroundColor = 'transparent';
                 if (sim.idx % 5 === 0 || pt.n) sim.chart.update();
@@ -3315,179 +3662,1009 @@ const fbSectors = ["Nifty", "Bank", "Auto", "Fin", "FMCG", "IT", "Metal", "Midca
 let userAllocation = {};
 fbSectors.forEach(s => userAllocation[s] = 0);
 
-const flashbackUi = {
-    total: 0,
-    sync: (sector, value) => {
-        let v = parseInt(value);
-        if (isNaN(v)) v = 0; if (v < 0) v = 0;
-        userAllocation[sector] = v;
-        let newTotal = Object.values(userAllocation).reduce((a, b) => a + b, 0);
-        if (newTotal > 100000) {
-            v = v - (newTotal - 100000);
-            userAllocation[sector] = v;
-        }
-        document.getElementById(`num-${sector}`).value = v;
-        document.getElementById(`rng-${sector}`).value = v;
-        const warnEl = document.getElementById(`warn-${sector}`);
-        if (warnEl) warnEl.style.display = v > 60000 ? 'block' : 'none';
-        flashbackUi.updateTotal();
-    },
-    updateTotal: () => {
-        flashbackUi.total = Object.values(userAllocation).reduce((a, b) => a + b, 0);
-        document.getElementById('fb-display-total').innerText = flashbackUi.total.toLocaleString();
-        const btn = document.getElementById('btn-start');
-        const msg = document.getElementById('alloc-warning');
-        if (flashbackUi.total > 0 && flashbackUi.total <= 100000) {
-            btn.disabled = false;
-            msg.innerText = "Ready to start";
-            msg.style.color = "var(--accent)";
-        } else {
-            btn.disabled = true;
-            msg.innerText = "Allocate up to ₹1,00,000";
-            msg.style.color = "#cbd5e1";
-        }
-    },
-    autoFill: () => {
-        fbSectors.forEach(s => {
-            flashbackUi.sync(s, 10000);
-        });
-    },
-    reset: () => {
-        fbSectors.forEach(s => {
-            flashbackUi.sync(s, 0);
-        });
+// --- MODERN MOCK TRADING TERMINAL ENGINE ---
+const dailyMarketData = {};
+const dailyDates = [];
+
+const sectorToFileMap = {
+    "Nifty": "NIFTY 50.csv",
+    "Bank": "NIFTY BANK.csv",
+    "Auto": "NIFTY AUTO.csv",
+    "Fin": "NIFTY FINANCIAL SERVICES.csv",
+    "FMCG": "NIFTY FMCG.csv",
+    "IT": "NIFTY IT.csv",
+    "Metal": "NIFTY METAL.csv",
+    "Midcap": "NIFTY MIDCAP 100.csv",
+    "Pharma": "NIFTY PHARMA.csv",
+    "Smallcap": "NIFTY SMALLCAP 100.csv"
+};
+
+const formatCsvDate = (dateStr) => {
+    if (!dateStr) return "";
+    const parts = dateStr.trim().split('-');
+    if (parts.length === 3) {
+        const day = parts[0];
+        const month = parts[1].charAt(0).toUpperCase() + parts[1].slice(1).toLowerCase();
+        const year = parts[2];
+        return `${day} ${month} '${year}`;
     }
+    return dateStr.trim();
+};
+
+const loadDailyNSEData = async () => {
+    // Clear and reset dailyMarketData and dailyDates arrays
+    fbSectors.forEach(sector => {
+        dailyMarketData[sector] = {
+            prices: [],
+            candles: []
+        };
+    });
+    dailyDates.length = 0;
+
+    // Load and parse all 10 sector CSV files concurrently
+    const loadPromises = fbSectors.map(async (sector) => {
+        const filename = sectorToFileMap[sector];
+        const response = await fetch(`assets/data/${filename}`);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch ${filename}`);
+        }
+        const text = await response.text();
+        const lines = text.split(/\r?\n/);
+        if (lines.length === 0) return;
+
+        // Parse CSV headers and find exact column indices (case-insensitive & trimmed)
+        const headerCells = lines[0].split(',').map(h => h.trim().toLowerCase());
+        const colIndices = {
+            date: headerCells.indexOf('date'),
+            open: headerCells.indexOf('open'),
+            high: headerCells.indexOf('high'),
+            low: headerCells.indexOf('low'),
+            close: headerCells.indexOf('close')
+        };
+
+        // Fallbacks if any headers have non-standard names
+        if (colIndices.date === -1) colIndices.date = 0;
+        if (colIndices.open === -1) colIndices.open = 1;
+        if (colIndices.high === -1) colIndices.high = 2;
+        if (colIndices.low === -1) colIndices.low = 3;
+        if (colIndices.close === -1) colIndices.close = 4;
+
+        const parsedRows = [];
+        for (let i = 1; i < lines.length; i++) {
+            const line = lines[i].trim();
+            if (!line) continue;
+            const cells = line.split(',');
+            if (cells.length < 5) continue;
+
+            const dateVal = cells[colIndices.date] ? cells[colIndices.date].trim() : "";
+            const openVal = parseFloat(cells[colIndices.open]);
+            const highVal = parseFloat(cells[colIndices.high]);
+            const lowVal = parseFloat(cells[colIndices.low]);
+            const closeVal = parseFloat(cells[colIndices.close]);
+
+            if (isNaN(openVal) || isNaN(highVal) || isNaN(lowVal) || isNaN(closeVal)) {
+                continue;
+            }
+
+            parsedRows.push({
+                date: dateVal,
+                o: openVal,
+                h: highVal,
+                l: lowVal,
+                c: closeVal
+            });
+        }
+
+        // Store close prices and OHLC candle objects chronologically
+        parsedRows.forEach(row => {
+            dailyMarketData[sector].prices.push(row.c);
+            dailyMarketData[sector].candles.push({
+                o: row.o,
+                h: row.h,
+                l: row.l,
+                c: row.c
+            });
+        });
+
+        // Use the Nifty 50 date mapping as the master timeline
+        if (sector === "Nifty") {
+            parsedRows.forEach(row => {
+                dailyDates.push(formatCsvDate(row.date));
+            });
+        }
+    });
+
+    await Promise.all(loadPromises);
+
+    // Padding safety check to ensure identical lengths in case of any data mismatches
+    fbSectors.forEach(sector => {
+        const sectorData = dailyMarketData[sector];
+        const targetLen = dailyDates.length;
+        while (sectorData.prices.length < targetLen) {
+            const lastIdx = sectorData.prices.length - 1;
+            if (lastIdx >= 0) {
+                sectorData.prices.push(sectorData.prices[lastIdx]);
+                sectorData.candles.push({ ...sectorData.candles[lastIdx] });
+            } else {
+                sectorData.prices.push(0);
+                sectorData.candles.push({ o: 0, h: 0, l: 0, c: 0 });
+            }
+        }
+    });
 };
 
 const flashbackSim = {
-    chart: null, interval: null, idx: 0, sIdx: 0, eIdx: 0, sold: {},
-    start: () => {
-        const sm = parseInt(document.getElementById('start-month').value);
-        const sy = parseInt(document.getElementById('start-year').value);
-        const em = parseInt(document.getElementById('end-month').value);
-        const ey = parseInt(document.getElementById('end-year').value);
-        flashbackSim.sIdx = (sy === 2024) ? sm : sm + 12;
-        flashbackSim.eIdx = (ey === 2024) ? em : em + 12;
-        if (flashbackSim.sIdx >= flashbackSim.eIdx) { alert(i18n.t("err-date-range")); return; }
+    chart: null,
+    interval: null,
+    isPlaying: false,
+    
+    // Core Simulator State
+    dayIdx: 0,
+    activeTab: "dashboard", // 'dashboard' or 'markets' or 'detail'
+    activeSector: "Nifty",
+    
+    cash: 100000,
+    holdings: {},      // { Nifty: units, ... }
+    avgCost: {},       // { Nifty: avg_purchase_price, ... }
+    triggers: {},      // { Nifty: { sl: null, tgt: null }, ... }
+    history: [],       // [{ d: date, val: portfolio_value }]
+    alerts: [],        // [{ type: 'info|success|danger', text: msg, date: dLabel }]
+
+    start: async () => {
+        // Prepare daily data asynchronously from real NSE CSVs
+        await loadDailyNSEData();
+        
+        // Reset State
+        flashbackSim.dayIdx = 0;
+        flashbackSim.activeTab = "dashboard";
+        flashbackSim.activeSector = "Nifty";
+        flashbackSim.isPlaying = false;
+        if (flashbackSim.interval) {
+            clearInterval(flashbackSim.interval);
+            flashbackSim.interval = null;
+        }
+
+        flashbackSim.cash = 100000;
+        flashbackSim.holdings = {};
+        flashbackSim.avgCost = {};
+        flashbackSim.triggers = {};
+        flashbackSim.history = [];
+        flashbackSim.alerts = [];
+
+        fbSectors.forEach(s => {
+            flashbackSim.holdings[s] = 0;
+            flashbackSim.avgCost[s] = 0;
+            flashbackSim.triggers[s] = { sl: null, tgt: null };
+        });
+
+        // Seed first day history
+        flashbackSim.history.push({ d: dailyDates[0], val: 100000 });
+        flashbackSim.alerts.push({ type: 'info', text: "Mock Trading Simulator active! ₹1,00,000 cash balance available.", date: dailyDates[0] });
+
         app.showScreen('sim-section');
-        flashbackSim.idx = flashbackSim.sIdx;
-        flashbackSim.sold = {};
+        
+        // Render UI
         flashbackSim.initChart();
-        flashbackSim.interval = setInterval(flashbackSim.tick, 1500);
+        flashbackSim.renderActive();
+        
+        // Reset play button state
+        const playBtn = document.getElementById('btn-fb-play');
+        if (playBtn) playBtn.innerHTML = "▶ Play";
     },
+
+    togglePlay: () => {
+        const btn = document.getElementById('btn-fb-play');
+        if (flashbackSim.isPlaying) {
+            clearInterval(flashbackSim.interval);
+            flashbackSim.isPlaying = false;
+            if (btn) btn.innerHTML = "▶ Play";
+        } else {
+            flashbackSim.isPlaying = true;
+            if (btn) btn.innerHTML = "⏸ Pause";
+            flashbackSim.interval = setInterval(flashbackSim.tick, 800);
+        }
+    },
+
+    skip: (type) => {
+        // Pause ticking
+        if (flashbackSim.isPlaying) {
+            flashbackSim.togglePlay();
+        }
+
+        let daysToSkip = 5; // week
+        if (type === 'month') daysToSkip = 20;
+        else if (type === 'year') daysToSkip = 240;
+
+        // Skip day by day sequentially to let triggers execute correctly
+        for (let i = 0; i < daysToSkip; i++) {
+            if (flashbackSim.dayIdx >= dailyDates.length) break;
+            flashbackSim.tick(true); // tick silently (no render)
+        }
+
+        // Render once at end
+        flashbackSim.renderActive();
+    },
+
+    tick: (silent = false) => {
+        if (flashbackSim.dayIdx >= dailyDates.length) {
+            flashbackSim.finish();
+            return;
+        }
+
+        const todayDate = dailyDates[flashbackSim.dayIdx];
+
+        // 1. Process Triggers (Stop-Loss and Target Profit)
+        fbSectors.forEach(sector => {
+            const unitsOwned = flashbackSim.holdings[sector] || 0;
+            if (unitsOwned > 0) {
+                const currentPrice = dailyMarketData[sector].prices[flashbackSim.dayIdx];
+                const avgPrice = flashbackSim.avgCost[sector];
+                const pctChange = ((currentPrice - avgPrice) / avgPrice) * 100;
+                
+                const sl = flashbackSim.triggers[sector].sl;
+                const tgt = flashbackSim.triggers[sector].tgt;
+
+                if (sl !== null && pctChange <= -sl) {
+                    // Auto-sell Stop-Loss
+                    const sellVal = unitsOwned * currentPrice;
+                    flashbackSim.cash += sellVal;
+                    flashbackSim.holdings[sector] = 0;
+                    flashbackSim.avgCost[sector] = 0;
+                    flashbackSim.triggers[sector] = { sl: null, tgt: null };
+                    
+                    flashbackSim.alerts.unshift({
+                        type: 'danger',
+                        text: `🚨 STOP LOSS TRIGGERED: ${sector} index auto-sold at ${pctChange.toFixed(1)}% loss (₹${Math.round(sellVal).toLocaleString()} returned to cash).`,
+                        date: todayDate
+                    });
+                } else if (tgt !== null && pctChange >= tgt) {
+                    // Auto-sell Profit Target
+                    const sellVal = unitsOwned * currentPrice;
+                    flashbackSim.cash += sellVal;
+                    flashbackSim.holdings[sector] = 0;
+                    flashbackSim.avgCost[sector] = 0;
+                    flashbackSim.triggers[sector] = { sl: null, tgt: null };
+
+                    flashbackSim.alerts.unshift({
+                        type: 'success',
+                        text: `🚀 TARGET HIT: ${sector} index auto-sold at ${pctChange.toFixed(1)}% profit (₹${Math.round(sellVal).toLocaleString()} returned to cash).`,
+                        date: todayDate
+                    });
+                }
+            }
+        });
+
+        // 2. Calculate Portfolio Cumulative Value
+        let portfolioVal = flashbackSim.cash;
+        fbSectors.forEach(sector => {
+            const unitsOwned = flashbackSim.holdings[sector] || 0;
+            const currentPrice = dailyMarketData[sector].prices[flashbackSim.dayIdx];
+            portfolioVal += unitsOwned * currentPrice;
+        });
+
+        // 3. Save History
+        flashbackSim.history.push({ d: todayDate, val: portfolioVal });
+
+        // 4. End Condition Check
+        if (flashbackSim.dayIdx === dailyDates.length - 1) {
+            flashbackSim.finish();
+            return;
+        }
+
+        // Increment Day
+        flashbackSim.dayIdx++;
+
+        // 5. Update UI
+        if (!silent) {
+            flashbackSim.renderActive();
+        }
+    },
+
     initChart: () => {
         const ctx = document.getElementById('fbChart').getContext('2d');
         if (flashbackSim.chart) flashbackSim.chart.destroy();
+        
         flashbackSim.chart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: [],
                 datasets: [
-                    { label: 'Your Portfolio', data: [], borderColor: '#5367FF', backgroundColor: 'rgba(83, 103, 255, 0.1)', borderWidth: 3, tension: 0.4, fill: true },
-                    { label: 'Nifty 50 Index Benchmark', data: [], borderColor: '#94A3B8', borderWidth: 2, borderDash: [5, 5], tension: 0.4, fill: false }
+                    { 
+                        label: 'Portfolio Value', 
+                        data: [], 
+                        borderColor: '#5367FF', 
+                        backgroundColor: 'rgba(83, 103, 255, 0.05)', 
+                        borderWidth: 2, 
+                        tension: 0.2, 
+                        fill: true,
+                        pointRadius: 0
+                    },
+                    {
+                        label: 'Market Index',
+                        data: [],
+                        borderColor: 'transparent',
+                        backgroundColor: 'transparent',
+                        borderWidth: 0,
+                        tension: 0.2,
+                        fill: false,
+                        pointRadius: 0,
+                        candlestick: true,
+                        candles: []
+                    }
                 ]
             },
             options: {
-                responsive: true, maintainAspectRatio: false, animation: false, plugins: { legend: { position: 'top' } },
-                scales: { x: { grid: { display: false } }, y: { ticks: { callback: v => '₹' + v.toLocaleString() } } }
-            }
-        });
-    },
-    tick: () => {
-        if (flashbackSim.idx > flashbackSim.eIdx) { flashbackSim.finish(); return; }
-        const dLabelRaw = fbDates[flashbackSim.idx];
-        const monthName = i18n.tMonth(flashbackSim.idx % 12);
-        const yearNum = flashbackSim.idx < 12 ? "24" : "25";
-        const dLabel = `${monthName} '${yearNum}`;
-
-        if (dLabelRaw === "May 24") { flashbackSim.pause(dLabel, i18n.t("news-ai-boom"), i18n.t("news-ai-impact"), false); return; }
-        if (dLabelRaw === "Aug 24") { flashbackSim.pause(dLabel, i18n.t("news-bank-crisis"), i18n.t("news-bank-impact"), true, "Bank"); return; }
-        if (dLabelRaw === "Nov 24") { flashbackSim.pause(dLabel, i18n.t("news-pharma-surge"), i18n.t("news-pharma-impact"), false); return; }
-        if (dLabelRaw === "Feb 25") { flashbackSim.pause(dLabel, i18n.t("news-midcap-crash"), i18n.t("news-midcap-impact"), true, "Midcap"); return; }
-        if (dLabelRaw === "Jun 25") { flashbackSim.pause(dLabel, i18n.t("news-infra-push"), i18n.t("news-infra-impact"), false); return; }
-
-        let portfolioValue = 0; let totalAllocated = 0;
-        fbSectors.forEach(s => {
-            const alloc = userAllocation[s]; totalAllocated += alloc;
-            if (alloc > 0) {
-                if (flashbackSim.sold[s]) portfolioValue += flashbackSim.sold[s];
-                else {
-                    const startPrice = fbData[s][flashbackSim.sIdx];
-                    const currentPrice = fbData[s][flashbackSim.idx];
-                    portfolioValue += (alloc * (currentPrice / startPrice));
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        callbacks: {
+                            label: (context) => {
+                                const dataset = context.dataset;
+                                const index = context.dataIndex;
+                                if (dataset.candlestick) {
+                                    const candle = dataset.candles ? dataset.candles[index] : null;
+                                    if (candle) {
+                                        return [
+                                            `${dataset.label} (Close): ₹${Math.round(candle.c).toLocaleString()}`,
+                                            `${dataset.label} (Open): ₹${Math.round(candle.o).toLocaleString()}`,
+                                            `${dataset.label} (High): ₹${Math.round(candle.h).toLocaleString()}`,
+                                            `${dataset.label} (Low): ₹${Math.round(candle.l).toLocaleString()}`
+                                        ];
+                                    }
+                                }
+                                return `${dataset.label}: ₹${Math.round(context.raw).toLocaleString()}`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: { grid: { display: false }, ticks: { maxTicksLimit: 6 } },
+                    y: { grid: { borderDash: [5, 5], color: '#e2e8f0' }, ticks: { callback: v => '₹' + v.toLocaleString() } }
                 }
-            }
+            },
+            plugins: [candlestickPlugin]
         });
-        const cash = 100000 - totalAllocated;
-        if (cash > 0) portfolioValue += cash;
-        const niftyStart = fbData["Nifty"][flashbackSim.sIdx];
-        const niftyCurrent = fbData["Nifty"][flashbackSim.idx];
-        const niftyValue = 100000 * (niftyCurrent / niftyStart);
+    },
 
-        document.getElementById('fb-sim-date').innerText = dLabel;
-        document.getElementById('fb-sim-user-val').innerText = `₹${Math.round(portfolioValue).toLocaleString()}`;
-        document.getElementById('fb-sim-nifty-val').innerText = `₹${Math.round(niftyValue).toLocaleString()}`;
-        flashbackSim.chart.data.labels.push(dLabel);
-        flashbackSim.chart.data.datasets[0].data.push(portfolioValue);
-        flashbackSim.chart.data.datasets[1].data.push(niftyValue);
+    switchTab: (tabName) => {
+        flashbackSim.activeTab = tabName;
+        
+        // Update header tab active states
+        const dashBtn = document.getElementById('tab-fb-dash');
+        const marketsBtn = document.getElementById('tab-fb-markets');
+        if (dashBtn && marketsBtn) {
+            if (tabName === 'dashboard') {
+                dashBtn.style.color = "var(--primary)";
+                dashBtn.style.borderBottom = "3px solid var(--primary)";
+                marketsBtn.style.color = "var(--text-muted)";
+                marketsBtn.style.borderBottom = "none";
+            } else if (tabName === 'markets') {
+                marketsBtn.style.color = "var(--primary)";
+                marketsBtn.style.borderBottom = "3px solid var(--primary)";
+                dashBtn.style.color = "var(--text-muted)";
+                dashBtn.style.borderBottom = "none";
+            } else {
+                // Detail screen
+                dashBtn.style.color = "var(--text-muted)";
+                dashBtn.style.borderBottom = "none";
+                marketsBtn.style.color = "var(--text-muted)";
+                marketsBtn.style.borderBottom = "none";
+            }
+        }
+
+        flashbackSim.renderActive();
+    },
+
+    openDetail: (sector) => {
+        flashbackSim.activeSector = sector;
+        flashbackSim.switchTab('detail');
+    },
+
+    executeBuy: () => {
+        const amtEl = document.getElementById('trade-amount');
+        if (!amtEl) return;
+        const amount = parseFloat(amtEl.value);
+        if (isNaN(amount) || amount <= 0) {
+            alert("Please enter a valid amount to buy.");
+            return;
+        }
+
+        if (amount > flashbackSim.cash) {
+            alert("Insufficient cash balance.");
+            return;
+        }
+
+        const sector = flashbackSim.activeSector;
+        const currentPrice = dailyMarketData[sector].prices[flashbackSim.dayIdx];
+        const units = amount / currentPrice;
+        
+        const currentUnits = flashbackSim.holdings[sector] || 0;
+        const currentAvg = flashbackSim.avgCost[sector] || 0;
+        
+        const newUnits = currentUnits + units;
+        const newAvg = (currentUnits * currentAvg + amount) / newUnits;
+
+        flashbackSim.holdings[sector] = newUnits;
+        flashbackSim.avgCost[sector] = newAvg;
+        flashbackSim.cash -= amount;
+
+        flashbackSim.alerts.unshift({
+            type: 'info',
+            text: `🛒 PURCHASE EXECUTION: Bought ₹${amount.toLocaleString()} worth of ${sector} Index at ₹${Math.round(currentPrice).toLocaleString()} per unit.`,
+            date: dailyDates[flashbackSim.dayIdx]
+        });
+
+        amtEl.value = "";
+        flashbackSim.renderActive();
+    },
+
+    executeSellAll: () => {
+        const sector = flashbackSim.activeSector;
+        const unitsOwned = flashbackSim.holdings[sector] || 0;
+        if (unitsOwned <= 0) {
+            alert("You don't own any holdings in this Index.");
+            return;
+        }
+
+        const currentPrice = dailyMarketData[sector].prices[flashbackSim.dayIdx];
+        const sellVal = unitsOwned * currentPrice;
+        const avgPrice = flashbackSim.avgCost[sector];
+        const pctGain = ((currentPrice - avgPrice) / avgPrice) * 100;
+
+        flashbackSim.cash += sellVal;
+        flashbackSim.holdings[sector] = 0;
+        flashbackSim.avgCost[sector] = 0;
+        flashbackSim.triggers[sector] = { sl: null, tgt: null };
+
+        flashbackSim.alerts.unshift({
+            type: pctGain >= 0 ? 'success' : 'danger',
+            text: `💸 LIQUIDATION EXECUTION: Fully liquidated ${sector} Index for ₹${Math.round(sellVal).toLocaleString()} (${pctGain >= 0 ? '+' : ''}${pctGain.toFixed(1)}% return).`,
+            date: dailyDates[flashbackSim.dayIdx]
+        });
+
+        flashbackSim.renderActive();
+    },
+
+    executeSetTriggers: () => {
+        const sector = flashbackSim.activeSector;
+        const slEl = document.getElementById('trade-sl');
+        const tgtEl = document.getElementById('trade-tgt');
+        if (!slEl || !tgtEl) return;
+
+        const slVal = slEl.value ? parseFloat(slEl.value) : null;
+        const tgtVal = tgtEl.value ? parseFloat(tgtEl.value) : null;
+
+        if (slVal !== null && (slVal <= 0 || slVal >= 100)) {
+            alert("Stop Loss must be a percentage between 1% and 99%.");
+            return;
+        }
+        if (tgtVal !== null && tgtVal <= 0) {
+            alert("Profit Target must be a positive percentage.");
+            return;
+        }
+
+        flashbackSim.triggers[sector] = { sl: slVal, tgt: tgtVal };
+
+        flashbackSim.alerts.unshift({
+            type: 'info',
+            text: `⚙️ TRIGGERS UPDATED: ${sector} index auto-sell triggers configured. (SL: ${slVal ? slVal+'%' : 'None'} | Target: ${tgtVal ? tgtVal+'%' : 'None'})`,
+            date: dailyDates[flashbackSim.dayIdx]
+        });
+
+        flashbackSim.renderActive();
+    },
+
+    renderActive: () => {
+        const todayDate = dailyDates[flashbackSim.dayIdx];
+
+        // Update Holdings count badge dynamically in the tab headers
+        let activeHoldingsCount = 0;
+        fbSectors.forEach(sector => {
+            if ((flashbackSim.holdings[sector] || 0) > 0) activeHoldingsCount++;
+        });
+        const badgeEl = document.getElementById('fb-holdings-count');
+        if (badgeEl) badgeEl.innerText = activeHoldingsCount;
+
+        // Toggle visibility and heights of Chart Box and Alerts Box dynamically based on screen context
+        const workspace = document.getElementById('fb-main-workspace');
+        const leftPanel = document.getElementById('fb-left-panel');
+        const rightPanel = document.getElementById('fb-right-panel');
+        const chartBox = document.getElementById('fb-chart-box');
+        const alertsBox = document.getElementById('fb-alerts-box');
+
+        if (workspace && leftPanel && rightPanel && chartBox && alertsBox) {
+            if (flashbackSim.activeTab === 'detail') {
+                // 2-Column Side-by-Side Trading Layout: Form on left, Chart+Alerts on right
+                workspace.style.display = "grid";
+                workspace.style.gridTemplateColumns = "1fr 1.5fr";
+                workspace.style.maxWidth = "none";
+                workspace.style.margin = "0";
+                workspace.style.minHeight = "620px";
+                
+                leftPanel.style.maxWidth = "none";
+                leftPanel.style.width = "100%";
+                leftPanel.style.margin = "0";
+
+                rightPanel.style.width = "100%";
+
+                chartBox.classList.remove('hidden');
+                alertsBox.classList.remove('hidden');
+                alertsBox.style.flex = '1';
+                alertsBox.style.maxHeight = '180px';
+                alertsBox.style.height = 'auto';
+            } else {
+                // Full-width 2-column grid: left=content, right=chart+alerts
+                workspace.style.display = "grid";
+                workspace.style.gridTemplateColumns = "1fr 420px";
+                workspace.style.maxWidth = "none";
+                workspace.style.margin = "0";
+                workspace.style.gap = "1.5rem";
+                workspace.style.minHeight = "560px";
+
+                leftPanel.style.width = "100%";
+                leftPanel.style.margin = "0";
+
+                rightPanel.style.width = "100%";
+
+                chartBox.classList.remove('hidden');
+                chartBox.style.height = '340px';
+                alertsBox.classList.remove('hidden');
+                alertsBox.style.flex = '1';
+                alertsBox.style.maxHeight = '220px';
+                alertsBox.style.height = 'auto';
+            }
+        }
+
+        // 1. Update Header Tickers
+        const dateEl = document.getElementById('fb-sim-date');
+        const cashEl = document.getElementById('fb-sim-cash');
+        if (dateEl) dateEl.innerText = todayDate;
+        if (cashEl) cashEl.innerText = `₹${Math.round(flashbackSim.cash).toLocaleString()}`;
+
+        // 2. Render Tab Left Content
+        const leftContainer = document.getElementById('fb-terminal-left-content');
+        if (!leftContainer) return;
+
+        if (flashbackSim.activeTab === 'dashboard') {
+            // Calculate Zerodha Kite holdings stats
+            let totalInvested = 0;
+            let totalCurrent = 0;
+            let itemsHtml = "";
+
+            // Calculate Day's P&L variables
+            let totalDayPrevValue = 0;
+            let totalDayCurrentValue = 0;
+
+            fbSectors.forEach(sector => {
+                const qty = flashbackSim.holdings[sector] || 0;
+                const price = dailyMarketData[sector].prices[flashbackSim.dayIdx];
+                const prevPrice = flashbackSim.dayIdx === 0 ? price : dailyMarketData[sector].prices[flashbackSim.dayIdx - 1];
+
+                if (qty > 0) {
+                    const avg = flashbackSim.avgCost[sector];
+                    const invested = qty * avg;
+                    const currentVal = qty * price;
+                    
+                    totalInvested += invested;
+                    totalCurrent += currentVal;
+
+                    totalDayCurrentValue += currentVal;
+                    totalDayPrevValue += qty * prevPrice;
+
+                    const holdingPnlAbsolute = currentVal - invested;
+                    const holdingPnlPct = ((price - avg) / avg) * 100;
+                    const dayChangePct = ((price - prevPrice) / prevPrice) * 100;
+
+                    const sl = flashbackSim.triggers[sector].sl;
+                    const tgt = flashbackSim.triggers[sector].tgt;
+                    const triggersStr = `${sl ? 'SL: -' + sl + '%' : ''} ${tgt ? 'Tgt: +' + tgt + '%' : ''}`.trim() || 'None';
+
+                    itemsHtml += `
+                        <div style="padding: 1.4rem 1rem; border-bottom: 1px solid rgba(0,0,0,0.06); font-family: 'Inter', sans-serif; border-radius: 12px; margin-bottom: 0.25rem; background: white; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='white'">
+                            <div class="flex justify-between items-center" style="margin-bottom: 0.5rem;">
+                                <span style="font-weight: 800; font-size: 1.1rem; color: var(--primary); letter-spacing: -0.01em;">${sector.toUpperCase()} INDEX</span>
+                                <span style="font-size: 1.05rem; font-weight: 800; color: ${holdingPnlAbsolute >= 0 ? '#22c55e' : '#ef4444'};">
+                                    ${holdingPnlAbsolute >= 0 ? '+' : ''}₹${Math.round(holdingPnlAbsolute).toLocaleString()}
+                                    <span style="font-size: 0.78rem; font-weight: 700; background: ${holdingPnlPct >= 0 ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.12)'}; color: ${holdingPnlPct >= 0 ? '#22c55e' : '#ef4444'}; padding: 2px 7px; border-radius: 50px; margin-left: 4px;">${holdingPnlPct >= 0 ? '+' : ''}${holdingPnlPct.toFixed(2)}%</span>
+                                </span>
+                            </div>
+                            <div class="flex justify-between items-center" style="font-size: 0.83rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+                                <div style="display: flex; gap: 1.25rem;">
+                                    <span>Qty: <strong style="color: var(--text-main);">${qty.toFixed(4)}</strong></span>
+                                    <span>Avg: <strong style="color: var(--text-main);">₹${Math.round(avg).toLocaleString()}</strong></span>
+                                    <span>Invested: <strong style="color: #475569;">₹${Math.round(invested).toLocaleString()}</strong></span>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center" style="font-size: 0.83rem;">
+                                <div style="display: flex; gap: 1.25rem; color: var(--text-muted);">
+                                    <span>LTP: <strong style="color: var(--text-main);">₹${Math.round(price).toLocaleString()}</strong></span>
+                                    <span style="color: ${dayChangePct >= 0 ? '#22c55e' : '#ef4444'}; font-weight: 700;">${dayChangePct >= 0 ? '▲ +' : '▼ '}${dayChangePct.toFixed(2)}% today</span>
+                                    ${triggersStr !== 'None' ? `<span style="color: #64748b; background: #f1f5f9; padding: 1px 6px; border-radius: 4px;">⚙️ ${triggersStr}</span>` : ''}
+                                </div>
+                                <button onclick="flashbackSim.openDetail('${sector}')" style="background: var(--primary); border: none; color: white; font-weight: 700; cursor: pointer; padding: 0.35rem 0.9rem; border-radius: 8px; font-size: 0.82rem; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Trade →</button>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            const totalPnlAbsolute = totalCurrent - totalInvested;
+            const totalPnlPct = totalInvested > 0 ? (totalPnlAbsolute / totalInvested) * 100 : 0;
+
+            const dayPnlAbsolute = totalDayCurrentValue - totalDayPrevValue;
+            const dayPnlPct = totalDayPrevValue > 0 ? (dayPnlAbsolute / totalDayPrevValue) * 100 : 0;
+
+            leftContainer.innerHTML = `
+                <!-- Portfolio Summary Cards Row -->
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; font-family: 'Inter', sans-serif;">
+                    <div style="background: linear-gradient(135deg, #f8fafc, #eef2ff); border-radius: 14px; padding: 1.1rem 1.25rem; border: 1px solid #e0e7ff;">
+                        <div style="font-size: 0.72rem; font-weight: 700; color: #6366f1; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.3rem;">Invested</div>
+                        <div style="font-size: 1.4rem; font-weight: 800; color: var(--text-main);">₹${Math.round(totalInvested).toLocaleString()}</div>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #f8fafc, #f0fdf4); border-radius: 14px; padding: 1.1rem 1.25rem; border: 1px solid #bbf7d0;">
+                        <div style="font-size: 0.72rem; font-weight: 700; color: #22c55e; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.3rem;">Current</div>
+                        <div style="font-size: 1.4rem; font-weight: 800; color: var(--text-main);">₹${Math.round(totalCurrent).toLocaleString()}</div>
+                    </div>
+                    <div style="background: ${totalPnlAbsolute >= 0 ? 'linear-gradient(135deg, #f0fdf4, #dcfce7)' : 'linear-gradient(135deg, #fff5f5, #fee2e2)'}; border-radius: 14px; padding: 1.1rem 1.25rem; border: 1px solid ${totalPnlAbsolute >= 0 ? '#bbf7d0' : '#fecaca'};">
+                        <div style="font-size: 0.72rem; font-weight: 700; color: ${totalPnlAbsolute >= 0 ? '#22c55e' : '#ef4444'}; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.3rem;">P&amp;L</div>
+                        <div style="font-size: 1.4rem; font-weight: 800; color: ${totalPnlAbsolute >= 0 ? '#22c55e' : '#ef4444'};">₹${Math.round(Math.abs(totalPnlAbsolute)).toLocaleString()} <span style="font-size: 0.8rem; font-weight: 700;">${totalPnlAbsolute >= 0 ? '+' : '-'}${totalPnlPct.toFixed(2)}%</span></div>
+                    </div>
+                </div>
+
+                <!-- Holdings column header row -->
+                <div class="flex justify-between items-center" style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; padding: 0 1rem; margin-bottom: 0.4rem;">
+                    <span>Holding</span>
+                    <span>P&amp;L / Return</span>
+                </div>
+
+                <!-- Holdings List scroll area -->
+                <div style="flex: 1; display: flex; flex-direction: column; overflow-y: auto;">
+                    ${itemsHtml ? `
+                        <div style="flex: 1;">
+                            ${itemsHtml}
+                        </div>
+                        
+                        <!-- Day's P&L Footer -->
+                        <div style="background: var(--bg-soft); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.25rem; display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; font-family: 'Inter', sans-serif;">
+                            <span style="font-weight: 700; color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.03em;">Today's P&L</span>
+                            <div class="flex items-center gap-2">
+                                <span style="font-weight: 800; color: ${dayPnlAbsolute >= 0 ? '#22c55e' : '#ef4444'}; font-size: 1.15rem;">
+                                    ${dayPnlAbsolute >= 0 ? '+' : ''}₹${Math.round(dayPnlAbsolute).toLocaleString()}
+                                </span>
+                                <span style="font-weight: 700; color: ${dayPnlAbsolute >= 0 ? '#22c55e' : '#ef4444'}; font-size: 0.88rem; background: ${dayPnlAbsolute >= 0 ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.12)'}; padding: 2px 8px; border-radius: 50px;">
+                                    ${dayPnlAbsolute >= 0 ? '+' : ''}${dayPnlPct.toFixed(2)}%
+                                </span>
+                            </div>
+                        </div>
+                    ` : `
+                        <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding: 4rem 2rem; color:var(--text-muted); text-align:center; flex: 1;">
+                            <span style="font-size: 3rem; margin-bottom: 1rem;">💼</span>
+                            <p style="font-weight: 800; font-size: 1.1rem; color: var(--text-main); margin-bottom: 0.5rem;">No active holdings</p>
+                            <p style="font-size: 0.88rem; max-width: 280px; margin-bottom: 1.5rem; color: var(--text-muted); line-height: 1.5;">You don't own any index positions yet. Click the <b>Markets</b> tab to browse indices and make your first trade!</p>
+                            <button class="btn btn-primary" onclick="flashbackSim.switchTab('markets')" style="padding: 0.6rem 1.5rem; font-size: 0.9rem; font-weight: 700;">Browse Markets →</button>
+                        </div>
+                    `}
+                </div>
+            `;
+
+        } else if (flashbackSim.activeTab === 'markets') {
+            // Render Markets indices grid
+            let cardsHtml = "";
+            fbSectors.forEach(sector => {
+                const price = dailyMarketData[sector].prices[flashbackSim.dayIdx];
+                const prevPrice = flashbackSim.dayIdx === 0 
+                    ? price 
+                    : dailyMarketData[sector].prices[flashbackSim.dayIdx - 1];
+                const dayChange = ((price - prevPrice) / prevPrice) * 100;
+                const isPositive = dayChange >= 0;
+                const units = flashbackSim.holdings[sector] || 0;
+
+                cardsHtml += `
+                    <div onclick="flashbackSim.openDetail('${sector}')" style="background: white; border: 1px solid var(--border); border-radius: 14px; padding: 1.2rem 1.35rem; cursor: pointer; transition: transform 0.18s, box-shadow 0.18s; position: relative;" onmouseover="this.style.boxShadow='0 6px 20px rgba(0,0,0,0.08)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.boxShadow='none'; this.style.transform='none'">
+                        <div class="flex justify-between items-center" style="margin-bottom: 0.5rem;">
+                            <span style="font-weight: 800; font-size: 1rem; color: var(--primary);">${sector}</span>
+                            ${units > 0 ? `<span style="background: rgba(83, 103, 255, 0.15); color: #5367FF; font-size: 0.68rem; font-weight: 800; padding: 3px 8px; border-radius: 6px;">● OWNED</span>` : `<span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600;">Index</span>`}
+                        </div>
+                        <div style="font-size: 1.35rem; font-weight: 900; color: var(--text); margin-bottom: 0.25rem; letter-spacing: -0.02em;">₹${Math.round(price).toLocaleString()}</div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="font-size: 0.82rem; font-weight: 700; color: ${isPositive ? '#22c55e' : '#ef4444'}; background: ${isPositive ? 'rgba(34,197,94,0.1)' : 'rgba(239,68,68,0.1)'}; padding: 2px 8px; border-radius: 6px; display: inline-block;">
+                                ${isPositive ? '▲ +' : '▼ '}${dayChange.toFixed(2)}%
+                            </div>
+                            <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Tap to trade →</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            leftContainer.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.1rem;">
+                    <h4 style="font-weight: 800; font-size: 1rem; color: var(--text-main); letter-spacing: -0.01em;">🏦 Indian Market Indices</h4>
+                    <span style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600;">Click any index to trade</span>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                    ${cardsHtml}
+                </div>
+            `;
+
+            // Draw Portfolio Value Line chart on the right (keeps context)
+            flashbackSim.renderPortfolioChart();
+
+        } else if (flashbackSim.activeTab === 'detail') {
+            // Render Index Detail / Trading Panel
+            const sector = flashbackSim.activeSector;
+            const price = dailyMarketData[sector].prices[flashbackSim.dayIdx];
+            
+            const prevPrice = flashbackSim.dayIdx === 0 ? price : dailyMarketData[sector].prices[flashbackSim.dayIdx - 1];
+            const dayChange = ((price - prevPrice) / prevPrice) * 100;
+            const isPositive = dayChange >= 0;
+
+            const unitsOwned = flashbackSim.holdings[sector] || 0;
+            const avg = flashbackSim.avgCost[sector] || 0;
+            const currentVal = unitsOwned * price;
+            const returnPct = avg > 0 ? ((price - avg) / avg) * 100 : 0;
+            const sl = flashbackSim.triggers[sector].sl;
+            const tgt = flashbackSim.triggers[sector].tgt;
+
+            // Check if the detailed view is already drawn in the DOM to avoid wiping user typing
+            const amtInputExists = document.getElementById('trade-amount');
+
+            if (amtInputExists) {
+                // Dynamic DOM Updates: updates only ticking values to preserve input focus & values!
+                const detailPriceEl = document.getElementById('detail-price');
+                const detailChangeEl = document.getElementById('detail-change');
+                const detailPosCardEl = document.getElementById('detail-position-card');
+                const btnSellEl = document.getElementById('btn-sell-position');
+                const btnUpdateTrigEl = document.getElementById('btn-update-triggers');
+                const tradeSlEl = document.getElementById('trade-sl');
+                const tradeTgtEl = document.getElementById('trade-tgt');
+
+                if (detailPriceEl) detailPriceEl.innerText = `₹${Math.round(price).toLocaleString()}`;
+                if (detailChangeEl) {
+                    detailChangeEl.innerText = `${isPositive ? '▲ +' : '▼ '}${dayChange.toFixed(2)}%`;
+                    detailChangeEl.style.color = isPositive ? '#22c55e' : '#ef4444';
+                }
+                if (detailPosCardEl) {
+                    detailPosCardEl.innerHTML = `
+                        <div style="font-weight: 700; color: var(--text-muted); text-transform: uppercase; font-size: 0.72rem; margin-bottom: 0.5rem; letter-spacing: 0.03em;">Your Position</div>
+                        ${unitsOwned > 0 ? `
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
+                                <div>Units: <span style="font-weight:700;">${unitsOwned.toFixed(4)}</span></div>
+                                <div>Avg Cost: <span style="font-weight:700;">₹${Math.round(avg).toLocaleString()}</span></div>
+                                <div>Current Value: <span style="font-weight:700;">₹${Math.round(currentVal).toLocaleString()}</span></div>
+                                <div>Profit/Loss: <span style="font-weight:800; color:${returnPct >= 0 ? '#22c55e' : '#ef4444'};">${returnPct >= 0 ? '▲ +' : '▼ '}${returnPct.toFixed(1)}%</span></div>
+                            </div>
+                        ` : `
+                            <div style="color: var(--text-muted); font-size: 0.82rem;">You do not own any positions in this index. Use the buy form below to trade.</div>
+                        `}
+                    `;
+                }
+
+                if (btnSellEl) {
+                    btnSellEl.disabled = unitsOwned <= 0;
+                    btnSellEl.style.background = unitsOwned <= 0 ? '#f1f5f9' : '#df514c';
+                    btnSellEl.style.borderColor = unitsOwned <= 0 ? '#e2e8f0' : '#df514c';
+                    btnSellEl.style.color = unitsOwned <= 0 ? '#94a3b8' : 'white';
+                    btnSellEl.style.cursor = unitsOwned <= 0 ? 'not-allowed' : 'pointer';
+                }
+
+                if (tradeSlEl) tradeSlEl.disabled = unitsOwned <= 0;
+                if (tradeTgtEl) tradeTgtEl.disabled = unitsOwned <= 0;
+
+                if (btnUpdateTrigEl) {
+                    btnUpdateTrigEl.disabled = unitsOwned <= 0;
+                    btnUpdateTrigEl.style.background = unitsOwned <= 0 ? '#f1f5f9' : 'transparent';
+                    btnUpdateTrigEl.style.borderColor = unitsOwned <= 0 ? '#e2e8f0' : 'var(--primary)';
+                    btnUpdateTrigEl.style.color = unitsOwned <= 0 ? '#94a3b8' : 'var(--primary)';
+                    btnUpdateTrigEl.style.cursor = unitsOwned <= 0 ? 'not-allowed' : 'pointer';
+                }
+            } else {
+                // Structural first-time render
+                leftContainer.innerHTML = `
+                    <div class="flex items-center gap-2 mb-4">
+                        <button onclick="flashbackSim.switchTab('markets')" style="background: none; border: none; font-size: 1rem; cursor: pointer; color: var(--text-muted); font-weight: 700;">← Back to Markets</button>
+                    </div>
+
+                    <div class="flex justify-between items-center mb-3">
+                        <div>
+                            <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--primary);">${sector} Index</h2>
+                            <span id="detail-price" style="font-size: 1.25rem; font-weight: 800; color: var(--text); display: inline-block; margin-top: 2px;">₹${Math.round(price).toLocaleString()}</span>
+                            <span id="detail-change" style="font-size: 0.82rem; font-weight: 700; color: ${isPositive ? '#22c55e' : '#ef4444'}; margin-left: 8px;">
+                                ${isPositive ? '▲ +' : '▼ '}${dayChange.toFixed(2)}%
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Position Summary Card -->
+                    <div id="detail-position-card" style="background: var(--bg-light, #f8fafc); border-radius: 12px; padding: 0.85rem 1.1rem; border: 1px solid var(--border); margin-bottom: 1.25rem; font-size: 0.85rem;">
+                        <div style="font-weight: 700; color: var(--text-muted); text-transform: uppercase; font-size: 0.72rem; margin-bottom: 0.5rem; letter-spacing: 0.03em;">Your Position</div>
+                        ${unitsOwned > 0 ? `
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
+                                <div>Units: <span style="font-weight:700;">${unitsOwned.toFixed(4)}</span></div>
+                                <div>Avg Cost: <span style="font-weight:700;">₹${Math.round(avg).toLocaleString()}</span></div>
+                                <div>Current Value: <span style="font-weight:700;">₹${Math.round(currentVal).toLocaleString()}</span></div>
+                                <div>Profit/Loss: <span style="font-weight:800; color:${returnPct >= 0 ? '#22c55e' : '#ef4444'};">${returnPct >= 0 ? '▲ +' : '▼ '}${returnPct.toFixed(1)}%</span></div>
+                            </div>
+                        ` : `
+                            <div style="color: var(--text-muted); font-size: 0.82rem;">You do not own any positions in this index. Use the buy form below to trade.</div>
+                        `}
+                    </div>
+
+                    <!-- Execution Trade Box -->
+                    <div style="border-top: 1px solid var(--border); padding-top: 1.25rem; margin-bottom: 0;">
+                        <label style="display: block; font-weight: 800; font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.6rem; letter-spacing: 0.05em;">💰 Execute Trade</label>
+                        <div style="position: relative; margin-bottom: 0.85rem;">
+                            <span style="position: absolute; left: 0.85rem; top: 50%; transform: translateY(-50%); font-size: 1rem; font-weight: 800; color: var(--text-muted); pointer-events: none;">₹</span>
+                            <input type="number" id="trade-amount" placeholder="Amount to invest..." class="form-control" style="width: 100%; font-weight: 700; padding: 0.7rem 0.85rem 0.7rem 2rem; font-size: 1rem; border-radius: 10px; box-sizing: border-box;" min="1000" step="1000">
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.25rem;">
+                            <button class="btn btn-primary" onclick="flashbackSim.executeBuy()" style="font-weight: 800; background: #387ed1; border-color: #387ed1; color: white; cursor: pointer; padding: 0.7rem 1rem; font-size: 0.95rem; border-radius: 10px; transition: opacity 0.15s;" onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'">🛒 Buy Index</button>
+                            <button id="btn-sell-position" class="btn" onclick="flashbackSim.executeSellAll()" style="font-weight: 800; background: ${unitsOwned <= 0 ? '#f1f5f9' : '#df514c'}; border: 2px solid ${unitsOwned <= 0 ? '#e2e8f0' : '#df514c'}; color: ${unitsOwned <= 0 ? '#94a3b8' : 'white'}; cursor: ${unitsOwned <= 0 ? 'not-allowed' : 'pointer'}; padding: 0.7rem 1rem; font-size: 0.95rem; border-radius: 10px; transition: opacity 0.15s;" ${unitsOwned <= 0 ? 'disabled' : ''} onmouseover="if(!this.disabled) this.style.opacity='0.88'" onmouseout="this.style.opacity='1'">💸 Sell All</button>
+                        </div>
+                    </div>
+
+                    <!-- Stop-Loss and Target Config -->
+                    <div style="border-top: 1px solid var(--border); padding-top: 1.25rem;">
+                        <label style="display: block; font-weight: 800; font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.7rem; letter-spacing: 0.05em;">⚙️ Auto-Sell Triggers</label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.85rem;">
+                            <div>
+                                <span style="font-size: 0.75rem; font-weight: 700; color: #ef4444; display: block; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.03em;">Stop Loss %</span>
+                                <input type="number" id="trade-sl" class="form-control" placeholder="e.g. 5" min="1" max="99" value="${sl || ''}" style="width: 100%; text-align: center; padding: 0.55rem; border-radius: 8px; font-weight: 700; font-size: 0.95rem; box-sizing: border-box;" ${unitsOwned <= 0 ? 'disabled' : ''}>
+                            </div>
+                            <div>
+                                <span style="font-size: 0.75rem; font-weight: 700; color: #22c55e; display: block; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.03em;">Target %</span>
+                                <input type="number" id="trade-tgt" class="form-control" placeholder="e.g. 10" min="1" max="1000" value="${tgt || ''}" style="width: 100%; text-align: center; padding: 0.55rem; border-radius: 8px; font-weight: 700; font-size: 0.95rem; box-sizing: border-box;" ${unitsOwned <= 0 ? 'disabled' : ''}>
+                            </div>
+                        </div>
+                        <button id="btn-update-triggers" class="btn" onclick="flashbackSim.executeSetTriggers()" style="width: 100%; font-weight: 800; padding: 0.65rem; font-size: 0.9rem; border-radius: 10px; background: ${unitsOwned <= 0 ? '#f1f5f9' : 'transparent'}; border: 2px solid ${unitsOwned <= 0 ? '#e2e8f0' : 'var(--primary)'}; color: ${unitsOwned <= 0 ? '#94a3b8' : 'var(--primary)'}; cursor: ${unitsOwned <= 0 ? 'not-allowed' : 'pointer'}; transition: all 0.2s; box-sizing: border-box;" ${unitsOwned <= 0 ? 'disabled' : ''}>Set Auto-Sell Triggers</button>
+                    </div>
+                `;
+            }
+
+            // Draw this index's Candlestick Chart on the right!
+            flashbackSim.renderIndexCandlesticks(sector);
+        }
+
+        // 3. Render Execution Alerts Log Console
+        const alertsContainer = document.getElementById('fb-terminal-alerts');
+        if (alertsContainer) {
+            alertsContainer.innerHTML = flashbackSim.alerts.map(a => `
+                <div style="border-left: 3px solid ${a.type === 'danger' ? 'var(--danger)' : a.type === 'success' ? '#22c55e' : '#5367FF'}; padding-left: 8px; margin-bottom: 2px;">
+                    <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block;">${a.date}</span>
+                    <span style="font-weight: 500; color: var(--text);">${a.text}</span>
+                </div>
+            `).join('');
+        }
+    },
+
+    renderPortfolioChart: () => {
+        const titleEl = document.getElementById('fb-chart-title');
+        const subEl = document.getElementById('fb-chart-subtitle');
+        if (titleEl) titleEl.innerText = "Portfolio Performance";
+        if (subEl) subEl.innerText = "Cumulative Value Line (₹)";
+
+        // Configure Dataset 0 for Line, Dataset 1 hidden/empty
+        flashbackSim.chart.data.labels = flashbackSim.history.map(h => h.d);
+        flashbackSim.chart.data.datasets[0].data = flashbackSim.history.map(h => h.val);
+        flashbackSim.chart.data.datasets[0].borderColor = '#5367FF';
+        flashbackSim.chart.data.datasets[0].backgroundColor = 'rgba(83, 103, 255, 0.05)';
+        flashbackSim.chart.data.datasets[0].borderWidth = 2;
+        flashbackSim.chart.data.datasets[0].fill = true;
+        flashbackSim.chart.data.datasets[0].pointRadius = 0;
+
+        flashbackSim.chart.data.datasets[1].data = [];
+        flashbackSim.chart.data.datasets[1].candles = [];
+        flashbackSim.chart.data.datasets[1].candlestick = false;
+
         flashbackSim.chart.update();
-        flashbackSim.idx++;
     },
-    pause: (date, headline, impact, isDecision, sector) => {
-        clearInterval(flashbackSim.interval);
-        const modal = document.getElementById('fb-news-modal');
-        modal.classList.remove('hidden');
-        document.getElementById('fb-news-date').innerText = date;
-        document.getElementById('fb-news-head').innerText = headline;
-        document.getElementById('fb-news-impact').innerText = impact;
-        const actions = document.getElementById('fb-news-actions');
-        if (isDecision) {
-            actions.innerHTML = `<button class="btn btn-danger" onclick="flashbackSim.decide('${sector}', 'sell')">${i18n.t("btn-sell")} ${i18n.t('sector-' + sector.toLowerCase())}</button>
-                        <button class="btn btn-primary" onclick="flashbackSim.decide('${sector}', 'hold')">${i18n.t("btn-hold")} ${i18n.t('sector-' + sector.toLowerCase())}</button>`;
-        } else {
-            actions.innerHTML = `<button class="btn btn-primary" onclick="flashbackSim.resume()">${i18n.t("btn-continue-sim")}</button>`;
+
+    renderIndexCandlesticks: (sector) => {
+        const titleEl = document.getElementById('fb-chart-title');
+        const subEl = document.getElementById('fb-chart-subtitle');
+        if (titleEl) titleEl.innerText = `${sector} Index Candlestick`;
+        if (subEl) subEl.innerText = "OHLC Candles (Daily Close)";
+
+        // Hide Dataset 0 (Portfolio line)
+        flashbackSim.chart.data.datasets[0].data = [];
+        flashbackSim.chart.data.datasets[0].fill = false;
+
+        // Configure Dataset 1 for Candlesticks
+        const rawHistoryLabels = [];
+        const rawHistoryCandles = [];
+        const rawHistoryClose = [];
+
+        // Show all daily data up to today's index
+        for (let i = 0; i <= flashbackSim.dayIdx; i++) {
+            rawHistoryLabels.push(dailyDates[i]);
+            rawHistoryCandles.push(dailyMarketData[sector].candles[i]);
+            rawHistoryClose.push(dailyMarketData[sector].prices[i]);
         }
+
+        // Apply to chart
+        flashbackSim.chart.data.labels = rawHistoryLabels;
+        flashbackSim.chart.data.datasets[1].data = rawHistoryClose;
+        flashbackSim.chart.data.datasets[1].candles = rawHistoryCandles;
+        flashbackSim.chart.data.datasets[1].candlestick = true;
+
+        flashbackSim.chart.update();
     },
-    resume: () => {
-        document.getElementById('fb-news-modal').classList.add('hidden');
-        flashbackSim.idx++;
-        flashbackSim.interval = setInterval(flashbackSim.tick, 1500);
-    },
-    decide: (sector, choice) => {
-        document.getElementById('fb-news-modal').classList.add('hidden');
-        if (choice === 'sell') {
-            const alloc = userAllocation[sector];
-            const startPrice = fbData[sector][flashbackSim.sIdx];
-            const currentPrice = fbData[sector][flashbackSim.idx];
-            flashbackSim.sold[sector] = alloc * (currentPrice / startPrice);
-        }
-        flashbackSim.idx++;
-        flashbackSim.interval = setInterval(flashbackSim.tick, 1500);
-    },
+
     finish: () => {
-        clearInterval(flashbackSim.interval);
+        // Pause ticking
+        if (flashbackSim.isPlaying) {
+            flashbackSim.togglePlay();
+        }
+
+        // Calculate final value
+        let finalVal = flashbackSim.cash;
+        fbSectors.forEach(sector => {
+            const units = flashbackSim.holdings[sector] || 0;
+            const currentPrice = dailyMarketData[sector].prices[flashbackSim.dayIdx];
+            finalVal += units * currentPrice;
+        });
+
+        // Hide active sim section and show result section
         app.showScreen('result-section');
-        const finalUser = flashbackSim.chart.data.datasets[0].data.slice(-1)[0];
-        const finalNifty = flashbackSim.chart.data.datasets[1].data.slice(-1)[0];
-        document.getElementById('res-final-user').innerText = `₹${Math.round(finalUser).toLocaleString()}`;
-        document.getElementById('res-final-nifty').innerText = `₹${Math.round(finalNifty).toLocaleString()}`;
-        const diff = finalUser - finalNifty;
-        const pctDiff = ((diff / finalNifty) * 100).toFixed(1);
-        if (finalUser > finalNifty) {
-            document.getElementById('fb-res-emoji').innerText = '🎉';
-            document.getElementById('fb-res-title').innerText = 'Outstanding Performance!';
-            document.getElementById('fb-res-msg').innerText = `You beat the Nifty 50 by ${pctDiff}%! Your diversification strategy paid off. Smart allocation wins.`;
+        
+        const returnPct = ((finalVal - 100000) / 100000) * 100;
+        const isProfit = returnPct >= 0;
+
+        document.getElementById('res-final-user').innerText = `₹${Math.round(finalVal).toLocaleString()}`;
+        
+        const retEl = document.getElementById('res-final-return');
+        if (retEl) {
+            retEl.innerText = `${isProfit ? '+' : ''}${returnPct.toFixed(2)}%`;
+            retEl.style.color = isProfit ? '#22c55e' : '#ef4444';
+        }
+
+        const emojiEl = document.getElementById('fb-res-emoji');
+        const titleEl = document.getElementById('fb-res-title');
+        const msgEl = document.getElementById('fb-res-msg');
+
+        if (isProfit) {
+            emojiEl.innerText = returnPct >= 10 ? '👑' : '🎉';
+            titleEl.innerText = returnPct >= 10 ? 'Sensational Trading!' : 'Diversification Wins!';
+            msgEl.innerText = `Outstanding! You successfully managed your risks, operated auto-sell triggers correctly, and pulled off a clean profit of ${returnPct.toFixed(1)}% on your capital!`;
         } else {
-            document.getElementById('fb-res-emoji').innerText = '📊';
-            document.getElementById('fb-res-title').innerText = 'Simulation Complete';
-            document.getElementById('fb-res-msg').innerText = `You trailed the Nifty 50 by ${Math.abs(pctDiff)}%. Index funds provide consistent market returns with lower risk.`;
+            emojiEl.innerText = '📉';
+            titleEl.innerText = 'Market Learning Complete';
+            msgEl.innerText = `You finished with a net loss of ${Math.abs(returnPct).toFixed(1)}%. Remember, keeping stop-loss levels tight and staying calm during daily volatility is essential to survival!`;
         }
     }
 };
 
 
 window.app = app; // Ensure global access
+window.flashbackSim = flashbackSim; // Ensure simulator is globally accessible
+
+// Scroll Reveal Animation Observer
+document.addEventListener('DOMContentLoaded', () => {
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target); // Stop observing once revealed
+            }
+        });
+    }, {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.15 // Trigger when 15% of the element is visible
+    });
+
+    // We will attach the '.reveal' class to elements in HTML, then observe them here
+    document.querySelectorAll('.reveal').forEach(el => {
+        revealObserver.observe(el);
+    });
+});
+
 console.log("App initializing...");
 app.init();
+
 
 

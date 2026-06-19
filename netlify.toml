@@ -1,0 +1,9 @@
+[[redirects]]
+  from = "/"
+  to = "/nivi.html"
+  status = 200
+
+[[redirects]]
+  from = "/index.html"
+  to = "/nivi.html"
+  status = 200

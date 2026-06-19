@@ -11,3 +11,15 @@ venv/
 env/
 .env_local
 how_to_run.txt
+
+# Local Netlify folder
+.netlify
+
+# Credentials / Keys
+nivi-67-firebase-adminsdk-fbsvc-90c2168852.json
+serviceAccount.json
+**/serviceAccount.json
+
+# Dependencies
+node_modules/
+**/node_modules/

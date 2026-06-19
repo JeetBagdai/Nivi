@@ -14,7 +14,27 @@
         rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <!-- Firebase Auth -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyA8Qrwg0WJfIUrvIFtehtJluhvg-KvQ78A",
+        authDomain: "nivi-67.firebaseapp.com",
+        projectId: "nivi-67",
+        storageBucket: "nivi-67.firebasestorage.app",
+        messagingSenderId: "428685787132",
+        appId: "1:428685787132:web:5e8c0cd376af7b1d9ebc79",
+        measurementId: "G-WRNSVX5941"
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <link rel="stylesheet" href="assets/css/styles.css?v=3.1">
 </head>
 
 <body>
@@ -28,16 +48,17 @@
 
     <div id="app">
         <!-- LANDING PAGE -->
-        <div id="landing" class="landing-page" role="main" id="main-landing" aria-label="Nivi landing page">
+        <div id="landing" class="landing-page" role="main" aria-label="Nivi landing page">
             <!-- CIRCULAR LANGUAGE SELECTOR (Always Visible) -->
             <div class="lang-circle-wrapper">
                 <div class="lang-circle-container" id="lang-circle">
                     <!-- Rendered by JavaScript on init -->
                 </div>
             </div>
+
             <div class="landing-hero"
                 style="min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 2rem 1rem;">
-                <img src="https://drive.google.com/thumbnail?id=1VPAG0TA_7KVfJ-ABwb_ph9LDiQyE6Yvb&sz=w1000"
+                <img src="assets/img/logo.png"
                     alt="Nivi — Flight Simulator for Financial Freedom" class="app-logo"
                     style="margin-bottom: 2rem; height: 64px;">
 
@@ -77,10 +98,41 @@
                     Your Journey</button>
             </div>
 
+            <!-- SECTION: WHAT IS NIVI -->
+            <div class="landing-section" style="background: white;">
+                <div class="landing-container" style="display: flex; align-items: center; gap: 4rem; flex-wrap: wrap;">
+                    
+                    <!-- Left: Graphic Card -->
+                    <div style="flex: 1; min-width: 300px;" class="reveal">
+                        <div style="background: var(--accent-soft, #f0f4f8); border-radius: 24px; padding: 3.5rem 2rem; text-align: center; border: 1px solid rgba(0,48,135,0.08); box-shadow: 0 10px 30px rgba(0,0,0,0.03); position: relative; overflow: hidden; transition: transform 0.3s ease;">
+                            <div style="font-size: 4rem; margin-bottom: 1.5rem; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));">🧠</div>
+                            <h3 style="font-size: 1.4rem; color: var(--primary, #003087); margin-bottom: 0.75rem; font-weight: 700;" data-i18n="landing-engine-title">Test Your Nerves</h3>
+                            <p style="color: var(--text-muted, #64748b); font-size: 0.95rem; line-height: 1.6;" data-i18n="landing-engine-desc">Experience real market crashes to see how you react before you risk your actual money.</p>
+                            
+                            <!-- Decorative Blob -->
+                            <div style="position: absolute; top: -15%; right: -15%; width: 180px; height: 180px; background: var(--primary, #003087); opacity: 0.05; border-radius: 50%;"></div>
+                            <div style="position: absolute; bottom: -10%; left: -10%; width: 120px; height: 120px; background: var(--danger, #e11d48); opacity: 0.03; border-radius: 50%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Text Content -->
+                    <div class="story-block reveal" style="flex: 1.2; min-width: 300px; text-align: left; margin-bottom: 0;">
+                        <small
+                            style="text-transform:uppercase; font-weight:700; color:var(--primary); letter-spacing:0.15em; display:block; margin-bottom:1rem;"
+                            data-i18n="landing-about">The Concept</small>
+                        <h2 style="font-size:3rem; margin-bottom:1.5rem; line-height: 1.15; font-weight: 800; letter-spacing: -0.02em;" data-i18n="landing-about-title">What is Nivi?</h2>
+                        <p style="font-size:1.15rem; color:var(--text-muted); line-height: 1.8; margin-bottom: 1.5rem;" data-i18n="landing-about-desc">
+                            Nivi is a platform that teaches you how to invest by testing your emotions. We use AI and past market crashes to show you what it really feels like to invest. Instead of just reading theory, you will learn how to stay calm and make smart choices in a safe space.
+                        </p>
+                    </div>
+                    
+                </div>
+            </div>
+
             <!-- SECTION: WHAT GOES WRONG -->
             <div class="landing-section bg-soft">
                 <div class="landing-container">
-                    <div class="story-block">
+                    <div class="story-block reveal">
                         <small
                             style="text-transform:uppercase; font-weight:700; color:var(--danger); letter-spacing:0.1em; display:block; margin-bottom:1rem;"
                             data-i18n="landing-trap">The
@@ -93,21 +145,21 @@
                     </div>
 
                     <div class="mistake-grid">
-                        <div class="mistake-card">
+                        <div class="mistake-card reveal">
                             <span class="mistake-icon">📉</span>
                             <div class="mistake-title" data-i18n="mistake-panic-title">Panic Selling</div>
                             <div class="mistake-text" data-i18n="mistake-panic-text">Markets crash. You get scared. You
                                 sell at the bottom to "save"
                                 what's left. You turn a temporary dip into a permanent loss.</div>
                         </div>
-                        <div class="mistake-card">
+                        <div class="mistake-card reveal">
                             <span class="mistake-icon">👂</span>
                             <div class="mistake-title" data-i18n="mistake-tips-title">Chasing Tips</div>
                             <div class="mistake-text" data-i18n="mistake-tips-text">"Buy this penny stock!" You follow
                                 the herd, buy high, and get
                                 stuck when the pumpers dump their shares.</div>
                         </div>
-                        <div class="mistake-card">
+                        <div class="mistake-card reveal">
                             <span class="mistake-icon">🛑</span>
                             <div class="mistake-title" data-i18n="mistake-sip-title">Stopping SIPs</div>
                             <div class="mistake-text" data-i18n="mistake-sip-text">"The market is falling, let me pause
@@ -118,146 +170,11 @@
                 </div>
             </div>
 
-            <!-- SECTION: INSPIRING WOMEN -->
-            <div class="landing-section bg-soft">
-                <div class="landing-container">
-                    <div class="story-block mb-12">
-                        <small
-                            style="text-transform:uppercase; font-weight:700; color:var(--primary); letter-spacing:0.1em; display:block; margin-bottom:1rem;">Empowerment</small>
-                        <h2 style="font-size:2.5rem; margin-bottom:1.5rem;">She Leads. She Invests.</h2>
-                        <p style="font-size:1.1rem; color:var(--text-muted);">Breaking barriers and building wealth. Be
-                            the
-                            next success story.</p>
-                    </div>
-
-                    <div class="women-carousel">
-                        <!-- Card 1: Naina Lal Kidwai -->
-                        <div class="women-card">
-                            <div class="women-card-header"
-                                style="background: linear-gradient(135deg, #fceabb 0%, #f8b500 100%);">
-                                <h3 class="women-card-name">Naina Lal Kidwai</h3>
-                                <!-- REPLACED WITH DRIVE LINK -->
-                                <img src="https://drive.google.com/thumbnail?id=1d_fDREq8br42JCW_JN74M3C9tJe248dW&sz=w300"
-                                    class="women-card-img" alt="Naina Lal Kidwai" loading="lazy">
-                            </div>
-                            <div class="women-card-content">
-                                <div>
-                                    <div class="women-role">The Trailblazer</div>
-                                    <p class="women-quote">"Use your skepticism to ask tough questions, but don't let it
-                                        stop you from taking risks."</p>
-                                </div>
-                                <p class="women-bio">The first Indian woman to graduate from Harvard Business School and
-                                    influential banker.</p>
-                            </div>
-                        </div>
-
-                        <!-- Card 2: Kiran Mazumdar-Shaw -->
-                        <div class="women-card">
-                            <div class="women-card-header"
-                                style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);">
-                                <h3 class="women-card-name">Kiran Mazumdar-Shaw</h3>
-                                <!-- REPLACED WITH DRIVE LINK -->
-                                <img src="https://drive.google.com/thumbnail?id=1YI6qdpNuM6oLVXsqEuaU5InLn1sjTu-d&sz=w300"
-                                    class="women-card-img" alt="Kiran Mazumdar-Shaw" loading="lazy">
-                            </div>
-                            <div class="women-card-content">
-                                <div>
-                                    <div class="women-role">The Visionary</div>
-                                    <p class="women-quote">"I hate the title of being the 'richest woman', but I love
-                                        the 'self-made' part."</p>
-                                </div>
-                                <p class="women-bio">Founder of Biocon, building a global biopharmaceutical powerhouse
-                                    from a garage startup.</p>
-                            </div>
-                        </div>
-
-                        <!-- Card 3: Gita Gopinath -->
-                        <div class="women-card">
-                            <div class="women-card-header"
-                                style="background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);">
-                                <h3 class="women-card-name">Gita Gopinath</h3>
-                                <!-- REPLACED WITH DRIVE LINK -->
-                                <img src="https://drive.google.com/thumbnail?id=1V74NTzXZxbbVjsLM1EGBAprfxC9XVQpI&sz=w300"
-                                    class="women-card-img" alt="Gita Gopinath" loading="lazy">
-                            </div>
-                            <div class="women-card-content">
-                                <div>
-                                    <div class="women-role">The Economist</div>
-                                    <p class="women-quote">"Understanding the economy isn't just for policymakers; it's
-                                        for everyone."</p>
-                                </div>
-                                <p class="women-bio">First Deputy Managing Director of the IMF, breaking glass ceilings
-                                    in global economics.</p>
-                            </div>
-                        </div>
-
-                        <!-- Card 4: Falguni Nayar -->
-                        <div class="women-card">
-                            <div class="women-card-header"
-                                style="background: linear-gradient(135deg, #FF512F 0%, #DD2476 100%);">
-                                <h3 class="women-card-name">Falguni Nayar</h3>
-                                <!-- REPLACED WITH DRIVE LINK -->
-                                <img src="https://drive.google.com/thumbnail?id=1pizeR5UI9Z_h3nBwsDOmBOXWYvVSt6Lx&sz=w300"
-                                    class="women-card-img" alt="Falguni Nayar" loading="lazy">
-                            </div>
-                            <div class="women-card-content">
-                                <div>
-                                    <div class="women-role">The Risk-Taker</div>
-                                    <p class="women-quote">"Calculated risks can lead to extraordinary success. Don't be
-                                        afraid to bet on yourself."</p>
-                                </div>
-                                <p class="women-bio">Founder of Nykaa, who quit her investment banking career at 50 to
-                                    build a beauty empire.</p>
-                            </div>
-                        </div>
-
-                        <!-- Card 5: Radhika Gupta -->
-                        <div class="women-card">
-                            <div class="women-card-header"
-                                style="background: linear-gradient(135deg, #43CBFF 0%, #9708CC 100%);">
-                                <h3 class="women-card-name">Radhika Gupta</h3>
-                                <!-- REPLACED WITH DRIVE LINK -->
-                                <img src="https://drive.google.com/thumbnail?id=18sSOhFa_dbsa5lR208f2PUEGfNc9ECzA&sz=w300"
-                                    class="women-card-img" alt="Radhika Gupta" loading="lazy">
-                            </div>
-                            <div class="women-card-content">
-                                <div>
-                                    <div class="women-role">The Resilient Leader</div>
-                                    <p class="women-quote">"If you can make an edge out of your flaws, do it. My broken
-                                        neck made me unique."</p>
-                                </div>
-                                <p class="women-bio">MD & CEO of Edelweiss AMC, known as "The Girl with the Broken Neck"
-                                    for her inspiring journey.</p>
-                            </div>
-                        </div>
-
-                        <!-- Card 6: Arundhati Bhattacharya -->
-                        <div class="women-card">
-                            <div class="women-card-header"
-                                style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
-                                <h3 class="women-card-name">Arundhati Bhattacharya</h3>
-                                <!-- REPLACED WITH DRIVE LINK -->
-                                <img src="https://drive.google.com/thumbnail?id=1fctGKgRIGm-5o88ehk2nS-RBrvk45Rdj&sz=w300"
-                                    class="women-card-img" alt="Arundhati Bhattacharya" loading="lazy">
-                            </div>
-                            <div class="women-card-content">
-                                <div>
-                                    <div class="women-role">The Pioneer</div>
-                                    <p class="women-quote">"If you continue to drive and stay on the path, the road will
-                                        open up in front of you."</p>
-                                </div>
-                                <p class="women-bio">First woman Chairperson of the State Bank of India (SBI) in its
-                                    200+ year history.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <!-- SECTION: TESTIMONIALS -->
             <div class="landing-section">
                 <div class="landing-container">
-                    <div class="story-block mb-12">
+                    <div class="story-block mb-12 reveal">
                         <small
                             style="text-transform:uppercase; font-weight:700; color:var(--primary); letter-spacing:0.1em; display:block; margin-bottom:1rem;"
                             data-i18n="landing-community">The Community</small>
@@ -268,50 +185,50 @@
                     </div>
 
                     <div class="testimonial-grid">
-                        <!-- Rahul -->
-                        <div class="testimonial-card"
-                            style="background-image: url('https://drive.google.com/thumbnail?id=1dRpbjaKbjokUW8lVuqv9xPnZ3yGSsN2g&sz=w1000')">
-                            <div class="testimonial-content">
-                                <p class="testimonial-quote" data-i18n="test-1-quote">NIVI approaches investing through
-                                    structured learning modules and myth-busting content rather than tips. The market
-                                    simulations and crash scenarios focus on understanding emotional reactions during
-                                    volatility.</p>
-                                <span class="testimonial-name">Vivek P Seshan</span>
-                                <span class="testimonial-role" data-i18n="test-1-role">BBA Student</span>
+                        <!-- Vivek P Seshan -->
+                        <div class="testimonial-card reveal"
+                            style="background: linear-gradient(135deg, var(--bg-soft) 0%, #ffffff 100%); padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid var(--border); box-shadow: var(--shadow-sm); height: 380px; position: relative;">
+                            <div style="font-size: 5rem; color: rgba(0, 48, 135, 0.05); font-family: Georgia, serif; position: absolute; top: 10px; right: 20px; line-height: 1; pointer-events: none;">“</div>
+                            <div class="testimonial-avatar" style="width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem; margin-bottom: 1.25rem; box-shadow: 0 4px 10px rgba(0, 48, 135, 0.12);">VS</div>
+                            <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                                <p class="testimonial-quote-redesign" style="font-size: 0.92rem; line-height: 1.6; color: var(--text-muted); font-style: italic; margin-bottom: 1.25rem;" data-i18n="test-1-quote">NIVI approaches investing through structured learning modules and myth-busting content rather than tips. The market simulations and crash scenarios focus on understanding emotional reactions during volatility.</p>
+                                <div>
+                                    <span class="testimonial-name" style="font-weight: 700; font-size: 1.05rem; color: var(--primary); display: block; margin-bottom: 2px;">Vivek P Seshan</span>
+                                    <span class="testimonial-role" style="font-size: 0.78rem; color: var(--text-light); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;" data-i18n="test-1-role">BBA Student</span>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Priya -->
-                        <div class="testimonial-card"
-                            style="background-image: url('https://drive.google.com/thumbnail?id=1epgs_j-Ytpt_RYbgitwIMNiOQXMEv3Xf&sz=w1000')">
-                            <div class="testimonial-content">
-                                <p class="testimonial-quote" data-i18n="test-2-quote">A trusted one stop resource for
-                                    investment related information. The website content is concise, clear and easy to
-                                    understand, highlighting the importance of long term investment over short term
-                                    speculation</p>
-                                <span class="testimonial-name">Dr. Bhavya Vikas</span>
-                                <span class="testimonial-role" data-i18n="test-2-role">MBA Professor/span>
+                        <!-- Dr. Bhavya Vikas -->
+                        <div class="testimonial-card reveal"
+                            style="background: linear-gradient(135deg, var(--bg-soft) 0%, #ffffff 100%); padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid var(--border); box-shadow: var(--shadow-sm); height: 380px; position: relative;">
+                            <div style="font-size: 5rem; color: rgba(0, 48, 135, 0.05); font-family: Georgia, serif; position: absolute; top: 10px; right: 20px; line-height: 1; pointer-events: none;">“</div>
+                            <div class="testimonial-avatar" style="width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem; margin-bottom: 1.25rem; box-shadow: 0 4px 10px rgba(0, 48, 135, 0.12);">BV</div>
+                            <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                                <p class="testimonial-quote-redesign" style="font-size: 0.92rem; line-height: 1.6; color: var(--text-muted); font-style: italic; margin-bottom: 1.25rem;" data-i18n="test-2-quote">A trusted one stop resource for investment related information. The website content is concise, clear and easy to understand, highlighting the importance of long term investment over short term speculation.</p>
+                                <div>
+                                    <span class="testimonial-name" style="font-weight: 700; font-size: 1.05rem; color: var(--primary); display: block; margin-bottom: 2px;">Dr. Bhavya Vikas</span>
+                                    <span class="testimonial-role" style="font-size: 0.78rem; color: var(--text-light); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;" data-i18n="test-2-role">MBA Professor</span>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Ramesh -->
-                        <div class="testimonial-card"
-                            style="background-image: url('https://drive.google.com/thumbnail?id=1Lds50m4bq_dKznE7_4pnhAt9Z7SuqW3n&sz=w1000')">
-                            <div class="testimonial-content">
-                                <p class="testimonial-quote" data-i18n="test-3-quote">Nivi demonstrates a thoughtful and
-                                    innovative approach by
-                                    incorporating panic room and flashback trading to simulate real market behavior and
-                                    emotional decision-making. It effectively builds awareness of trading psychology and
-                                    risk handling in a practical way.</p>
-                                <span class="testimonial-name">Pranav Y Harish</span>
-                                <span class="testimonial-role" data-i18n="test-3-role">Business owner and former Goldman
-                                    Sachs analyst</span>
+                        <!-- Pranav Y Harish -->
+                        <div class="testimonial-card reveal"
+                            style="background: linear-gradient(135deg, var(--bg-soft) 0%, #ffffff 100%); padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid var(--border); box-shadow: var(--shadow-sm); height: 380px; position: relative;">
+                            <div style="font-size: 5rem; color: rgba(0, 48, 135, 0.05); font-family: Georgia, serif; position: absolute; top: 10px; right: 20px; line-height: 1; pointer-events: none;">“</div>
+                            <div class="testimonial-avatar" style="width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem; margin-bottom: 1.25rem; box-shadow: 0 4px 10px rgba(0, 48, 135, 0.12);">PH</div>
+                            <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                                <p class="testimonial-quote-redesign" style="font-size: 0.92rem; line-height: 1.6; color: var(--text-muted); font-style: italic; margin-bottom: 1.25rem;" data-i18n="test-3-quote">Nivi demonstrates a thoughtful and innovative approach by incorporating panic room and flashback trading to simulate real market behavior and emotional decision-making.</p>
+                                <div>
+                                    <span class="testimonial-name" style="font-weight: 700; font-size: 1.05rem; color: var(--primary); display: block; margin-bottom: 2px;">Pranav Y Harish</span>
+                                    <span class="testimonial-role" style="font-size: 0.78rem; color: var(--text-light); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;" data-i18n="test-3-role">Business Owner & Former Goldman Sachs Analyst</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
 
         <!-- Onboarding Screen (Login/Signup) -->
@@ -327,47 +244,16 @@
                 </div>
 
 
-                <div class="mb-6">
-                    <label class="block text-sm font-semibold mb-2" data-i18n="field-name">Full Name</label>
-                    <input type="text" id="user-name" class="form-control" placeholder="John Doe"
-                        data-i18n="placeholder-name">
+                <div class="mb-6" style="text-align: center;">
+                    <p class="text-muted mb-4" data-i18n="google-signin-desc">Please sign in to save your progress and continue learning.</p>
+                    <button class="btn btn-outline w-full" style="display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; font-weight: 600; padding: 0.8rem;" onclick="app.signInWithGoogle()">
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width: 24px; height: 24px;">
+                        <span data-i18n="btn-google-signin">Sign in with Google</span>
+                    </button>
                 </div>
-                <div class="mb-6">
-                    <label class="block text-sm font-semibold mb-2" data-i18n="field-email">Email Address</label>
-                    <input type="email" id="user-email" class="form-control" placeholder="john@example.com"
-                        data-i18n="placeholder-email">
-                    <small class="text-muted mt-1 block" style="font-size: 0.75rem;" data-i18n="field-email-helper">We
-                        only use this to save your
-                        progress. No spam, ever.</small>
-                </div>
-                <div class="mb-6">
-                    <label class="block text-sm font-semibold mb-2" data-i18n="field-phone">Phone Number
-                        (Optional)</label>
-                    <input type="tel" id="user-phone" class="form-control" placeholder="9876543210"
-                        data-i18n="placeholder-phone">
-                </div>
-                <div class="mb-6">
-                    <label class="block text-sm font-semibold mb-2" data-i18n="field-yob">Year of Birth</label>
-                    <input type="number" id="user-yob" class="form-control" placeholder="1995"
-                        data-i18n="placeholder-yob">
-                    <small class="text-muted mt-1 block" style="font-size: 0.75rem;" data-i18n="field-yob-helper">Used
-                        to personalize your simulation
-                        experience.</small>
-                </div>
+                
+                <p class="text-center mt-4 text-muted" style="font-size: 0.8rem;" data-i18n="onboarding-footer">Your data is safe with us.</p>
 
-                <div class="consent-group">
-                    <input type="checkbox" id="user-consent" style="margin-top: 3px;">
-                    <label for="user-consent" data-i18n="consent-text">I agree to the terms and allow Nivi to analyze my
-                        financial behavior data
-                        for educational feedback.</label>
-                </div>
-
-                <button class="btn btn-primary w-full" style="width: 100%;" onclick="app.completeOnboarding()"
-                    data-i18n="btn-start-learning">Start
-                    learning</button>
-                <p class="text-center mt-4 text-muted" style="font-size: 0.8rem;" data-i18n="onboarding-footer">You can
-                    change these details later.
-                </p>
             </div>
         </div>
 
@@ -478,7 +364,7 @@
     <div id="dashboard" class="container hidden" style="padding-top: 0.5rem; padding-bottom: 1.5rem;">
         <header class="flex justify-between items-center" style="margin-bottom: 0;">
             <div class="flex flex-col" style="align-items: flex-start; gap: 0.15rem;">
-                <img src="https://drive.google.com/thumbnail?id=1VPAG0TA_7KVfJ-ABwb_ph9LDiQyE6Yvb&sz=w1000"
+                <img src="assets/img/logo.png"
                     alt="Nivi — go to dashboard" role="button" class="app-logo" onclick="app.showDashboard()"
                     style="cursor:pointer; height: 48px;">
 
@@ -497,7 +383,7 @@
                         onmouseout="this.style.color='var(--text-muted)'" data-i18n="logout">
                         Logout
                     </button>
-                    <div class="profile-btn" onclick="app.showProfile()" style="cursor:pointer; font-size: 1.5rem;">👤
+                    <div id="profile-tour-btn" class="profile-btn" onclick="app.showProfile()" style="cursor:pointer; font-size: 1.5rem;">👤
                     </div>
                 </div>
             </div>
@@ -692,7 +578,7 @@
         <!-- - [x] Implement language persistence in LocalStorage <!-- id: 89 -->
 
         <!-- Historical Simulation Entry -->
-        <div class="card"
+        <div id="flashback-card" class="card"
             style="background: var(--primary); color: white; margin-top: 2rem; border: none; overflow: hidden; position: relative;">
             <div style="padding: 2rem; position: relative; z-index: 1;">
                 <h2 style="color: white; font-size: 1.6rem; margin-bottom: 0.75rem;" data-i18n="dash-flashback-title">
@@ -700,7 +586,7 @@
                 <p style="max-width: 400px; margin-bottom: 1.5rem; font-size: 0.9rem;" data-i18n="dash-flashback-desc">
                     Build a portfolio
                     using 10 Indian sectors and see how you would have survived the 2024-2025 market volatility.</p>
-                <button class="btn btn-primary" onclick="app.showScreen('flashback-setup')"
+                <button class="btn btn-primary" onclick="flashbackSim.start()"
                     style="background: white; color: var(--primary); border: none; font-weight: 700; padding: 0.8rem 1.6rem;"
                     data-i18n="btn-launch"
                     onkeydown="if(event.key==='Tab'&&!event.shiftKey){event.preventDefault();document.getElementById('chatbot-trigger').focus();}">Launch
@@ -875,7 +761,7 @@
     <!-- Profile Screen (Identity Focus) -->
     <section id="profile" class="profile-screen hidden">
         <header class="flex justify-between items-center mb-6" style="padding: 0 2rem;">
-            <img src="https://drive.google.com/thumbnail?id=1VPAG0TA_7KVfJ-ABwb_ph9LDiQyE6Yvb&sz=w1000" alt="NIVI"
+            <img src="assets/img/logo.png" alt="NIVI"
                 class="app-logo" onclick="app.showDashboard()" style="cursor:pointer;">
             <button class="btn btn-secondary" onclick="app.showDashboard()">Close</button>
         </header>
@@ -1114,53 +1000,100 @@
         </div>
     </section>
 
-    <!-- FLASHBACK TRADING: SIMULATION -->
-    <section id="sim-section" class="container hidden fade-in">
-        <header class="flex justify-between items-center mb-8">
-            <button class="btn btn-outline" onclick="flashbackSim.finish()"
-                style="color:var(--danger); border-color:var(--danger)" data-i18n="sim-abort">Abort Simulation</button>
-            <div style="text-align: right;">
-                <span class="sim-label" data-i18n="sim-current-date">Current Date</span>
-                <div id="fb-sim-date" style="font-size: 1.2rem; font-weight: 800; color: var(--primary);">Jan 2024</div>
+    <!-- FLASHBACK TRADING: MOCK TRADING SIMULATION -->
+    <section id="sim-section" class="container hidden fade-in" style="max-width: 1400px; padding: 1.5rem;">
+        <!-- Top Control Panel -->
+        <header style="display: flex; justify-content: space-between; align-items: center; background: white; border-radius: 16px; padding: 1rem 1.5rem; margin-bottom: 1.5rem; border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+            <div class="flex gap-4 items-center">
+                <button class="btn btn-outline" onclick="flashbackSim.finish()" style="color: var(--danger); border-color: var(--danger); font-weight: 700; padding: 0.5rem 1.1rem;" data-i18n="sim-abort">Exit Simulation</button>
+                <div class="flex items-center" style="border-left: 2px solid var(--border); padding-left: 1.25rem; gap: 0.6rem;">
+                    <button class="btn btn-primary" id="btn-fb-play" onclick="flashbackSim.togglePlay()" style="min-width: 110px; font-weight: 700; padding: 0.55rem 1.25rem; font-size: 0.95rem;">▶ Play</button>
+                    <div style="width: 1px; height: 24px; background: var(--border); margin: 0 0.25rem;"></div>
+                    <button class="btn btn-outline" onclick="flashbackSim.skip('week')" style="padding: 0.55rem 1rem; font-size: 0.88rem; font-weight: 600;">+1 Wk</button>
+                    <button class="btn btn-outline" onclick="flashbackSim.skip('month')" style="padding: 0.55rem 1rem; font-size: 0.88rem; font-weight: 600;">+1 Mo</button>
+                    <button class="btn btn-outline" onclick="flashbackSim.skip('year')" style="padding: 0.55rem 1rem; font-size: 0.88rem; font-weight: 600;">+1 Yr</button>
+                </div>
+            </div>
+            
+            <div style="display: flex; align-items: center; gap: 2rem;">
+                <div style="text-align: right;">
+                    <div style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;" data-i18n="sim-current-date">Simulation Date</div>
+                    <div id="fb-sim-date" style="font-size: 1.25rem; font-weight: 800; color: var(--primary);">01 Jan '24</div>
+                </div>
+                <div style="text-align: right; border-left: 2px solid var(--border); padding-left: 2rem;">
+                    <div style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Available Cash</div>
+                    <div id="fb-sim-cash" style="font-size: 1.25rem; font-weight: 800; color: #22c55e;">₹1,00,000</div>
+                </div>
             </div>
         </header>
 
-        <div class="sim-container">
-            <div class="sim-sidebar">
-                <div class="sim-stat-box">
-                    <div class="sim-label" data-i18n="your-portfolio">Your Portfolio</div>
-                    <div class="sim-value" id="fb-sim-user-val">₹0</div>
+        <!-- Main Workspace -->
+        <div id="fb-main-workspace" style="display: grid; grid-template-columns: 1fr 420px; gap: 1.5rem; min-height: 560px;">
+            <!-- Left Side: Interactive Dashboard, Markets, or Detail Panel -->
+            <div id="fb-left-panel" style="background: white; border-radius: 16px; padding: 1.5rem; border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.03); display: flex; flex-direction: column;">
+                <!-- Tab Headers -->
+                <div class="flex gap-6 mb-6" style="border-bottom: 1px solid var(--border); padding-bottom: 0px; font-family: 'Inter', sans-serif;">
+                    <button class="tab-btn active" id="tab-fb-dash" onclick="flashbackSim.switchTab('dashboard')" style="font-weight: 700; background:none; border:none; cursor:pointer; color:var(--primary); padding: 0.75rem 0.5rem; border-bottom: 3px solid var(--primary); font-size: 0.95rem; display: flex; align-items: center; gap: 6px; position: relative; bottom: -1px;">
+                        Holdings <span id="fb-holdings-count" style="background: var(--primary); color: white; font-size: 0.7rem; font-weight: 700; padding: 2px 6px; border-radius: 50px;">0</span>
+                    </button>
+                    <button class="tab-btn" id="tab-fb-markets" onclick="flashbackSim.switchTab('markets')" style="font-weight: 700; background:none; border:none; cursor:pointer; color:var(--text-muted); padding: 0.75rem 0.5rem; border-bottom: 3px solid transparent; font-size: 0.95rem; position: relative; bottom: -1px;">
+                        Markets
+                    </button>
                 </div>
-                <div class="sim-stat-box">
-                    <div class="result-label" data-i18n="sim-nifty-return">Nifty 50 Return</div>
-                    <div class="sim-value" style="color: var(--text-muted);" id="fb-sim-nifty-val">₹0</div>
+
+                <!-- Tab Contents Dynamic Container -->
+                <div id="fb-terminal-left-content" style="flex: 1; display: flex; flex-direction: column; overflow-y: auto;">
+                    <!-- Content injected by JS -->
                 </div>
             </div>
-            <div class="chart-box">
-                <canvas id="fbChart"></canvas>
+
+            <!-- Right Side: Graphic Visualizer & Alert Console -->
+            <div id="fb-right-panel" style="display: flex; flex-direction: column; gap: 1.25rem;">
+                <!-- Main Chart Canvas -->
+                <div id="fb-chart-box" style="background: white; border-radius: 16px; padding: 1.35rem 1.5rem; border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.03); flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 320px;">
+                    <div class="flex justify-between items-center" style="margin-bottom: 0.75rem;">
+                        <h3 id="fb-chart-title" style="font-weight: 700; color: var(--primary); font-size: 1.05rem;">Portfolio Performance</h3>
+                        <span id="fb-chart-subtitle" style="font-size: 0.78rem; color: var(--text-muted);">Cumulative Value Line</span>
+                    </div>
+                    <div style="flex: 1; position: relative; width: 100%; min-height: 220px;">
+                        <canvas id="fbChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Alerts / Logs Console (always visible at bottom of right panel) -->
+                <div id="fb-alerts-box" style="background: white; border-radius: 16px; padding: 1rem 1.35rem; border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.03); max-height: 220px; display: flex; flex-direction: column;">
+                    <h4 style="font-weight: 700; color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.6rem; letter-spacing: 0.06em; flex-shrink: 0;">⚡ Execution Alerts</h4>
+                    <div id="fb-terminal-alerts" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.81rem;">
+                        <!-- Alerts injected by JS -->
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- FLASHBACK TRADING: RESULT -->
     <section id="result-section" class="container hidden slide-up">
-        <div class="result-container">
-            <div class="result-emoji" id="fb-res-emoji">🎉</div>
-            <h1 id="fb-res-title" data-i18n="simulation-complete">Simulation Complete</h1>
-            <p id="fb-res-msg" style="font-size:1.2rem; margin-bottom:30px; line-height:1.6;">Message</p>
+        <div class="result-container" style="max-width: 600px; text-align: center; margin: 4rem auto; background: white; padding: 3rem; border-radius: 24px; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+            <div class="result-emoji" id="fb-res-emoji" style="font-size: 4.5rem; margin-bottom: 1.5rem;">🎉</div>
+            <h1 id="fb-res-title" style="font-size: 2.2rem; font-weight: 800; color: var(--primary); margin-bottom: 1rem;" data-i18n="simulation-complete">Simulation Complete</h1>
+            <p id="fb-res-msg" style="font-size: 1.1rem; color: var(--text-muted); margin-bottom: 2.5rem; line-height: 1.6;">Message</p>
 
-            <div class="result-card">
-                <div class="result-row">
-                    <span class="result-label" data-i18n="your-final-value">Your Final Value</span>
-                    <span class="result-value" style="color:var(--primary)" id="res-final-user">₹0</span>
+            <div class="result-card" style="background: var(--bg-light, #f8fafc); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; margin-bottom: 2.5rem;">
+                <div class="result-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 0.75rem;">
+                    <span class="result-label" style="font-weight: 600; color: var(--text-muted);">Starting Capital</span>
+                    <span class="result-value" style="font-weight: 800; color: var(--text);">₹1,00,000</span>
                 </div>
-                <div class="result-row">
-                    <span class="result-label" data-i18n="nifty-benchmark">Nifty 50 Benchmark</span>
-                    <span class="result-value" style="color:var(--secondary)" id="res-final-nifty">₹0</span>
+                <div class="result-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 0.75rem;">
+                    <span class="result-label" style="font-weight: 600; color: var(--text-muted);" data-i18n="your-final-value">Final Portfolio Value</span>
+                    <span class="result-value" style="font-weight: 800; color: var(--primary);" id="res-final-user">₹0</span>
+                </div>
+                <div class="result-row" style="display: flex; justify-content: space-between; align-items: center;">
+                    <span class="result-label" style="font-weight: 600; color: var(--text-muted);">Total Return</span>
+                    <span class="result-value" style="font-weight: 800;" id="res-final-return">0%</span>
                 </div>
             </div>
 
-            <button class="btn btn-primary btn-lg" onclick="app.showDashboard()">Return to Dashboard</button>
+            <button class="btn btn-primary btn-lg" onclick="app.showDashboard()" style="font-weight: 700; width: 100%; padding: 1rem;">Return to Dashboard</button>
         </div>
     </section>
 
@@ -1179,7 +1112,7 @@
     </div>
 
 
-    <script src="assets/js/scripts.js"></script>
+    <script src="assets/js/scripts.js?v=2.8"></script>
 </body>
 
 </html>
