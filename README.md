@@ -27,7 +27,6 @@ Nivi acts as a **"flight simulator"** for your investments, replacing passive re
 
 * **Chronological Time Compression:** Nivi streams **real daily historical NSE candlestick data** at an accelerated pace. A year of historical price action is compressed into a 10-minute session.
 * **The Panic Room:** Instead of theoretical lessons, Nivi drops you directly into real historical crashes. You trade in real-time as the Lehman collapse or COVID lockdown plays out on your chart, forcing you to confront your emotional biases.
-* **Behavioral Scoring:** Nivi doesn't just calculate your portfolio return; it measures your **Behavioral Score**—penalizing panic-selling at the absolute bottom, chasing speculative tips, and stopping systematic investment plans (SIPs) during market dips.
 
 ---
 
